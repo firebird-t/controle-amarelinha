@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="119dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <ListView
