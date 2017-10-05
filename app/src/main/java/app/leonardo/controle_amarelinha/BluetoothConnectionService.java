@@ -18,16 +18,13 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
-/**
- * Created by User on 12/21/2016.
- */
 
 public class BluetoothConnectionService {
     private static final String TAG = "BluetoothConnectionServ";
 
     private static final String appName = "Controle Amarelinha";
 
-    private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
+    private static final UUID MY_UUID_INSECURE = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     private final BluetoothAdapter mBluetoothAdapter;
     Context mContext;
@@ -117,6 +114,7 @@ public class BluetoothConnectionService {
      */
     private class ConnectThread extends Thread {
         private BluetoothSocket mmSocket;
+        private UUID uuid;
 
         public ConnectThread(BluetoothDevice device, UUID uuid) {
             Log.d(TAG, "ConnectThread: started.");
@@ -131,8 +129,7 @@ public class BluetoothConnectionService {
             // Get a BluetoothSocket for a connection with the
             // given BluetoothDevice
             try {
-                Log.d(TAG, "ConnectThread: Trying to create InsecureRfcommSocket using UUID: "
-                        +MY_UUID_INSECURE );
+                Log.d(TAG, "ConnectThread: Trying to create InsecureRfcommSocket using UUID: " + deviceUUID );
                 tmp = mmDevice.createRfcommSocketToServiceRecord(deviceUUID);
             } catch (IOException e) {
                 Log.e(TAG, "ConnectThread: Could not create InsecureRfcommSocket " + e.getMessage());

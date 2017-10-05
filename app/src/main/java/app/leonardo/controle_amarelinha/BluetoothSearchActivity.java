@@ -20,14 +20,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class BluetoothSearchActivity extends MainActivity{
 
@@ -36,7 +39,9 @@ public class BluetoothSearchActivity extends MainActivity{
     ArrayList<String> mDeviceList = new ArrayList<String>();
     public ArrayList<BluetoothDevice> mBTDevices = new ArrayList<>();
 
+    BluetoothConnectionService mBluetoothConnection;
     BluetoothAdapter mBluetoothAdapter;
+    BluetoothDevice mBTDevice;
     Button btnEnableDisable_Discoverable;
     Button btnEnable;
     Button Discover;
@@ -47,6 +52,12 @@ public class BluetoothSearchActivity extends MainActivity{
     private Boolean registerReceive3Boolean = false;
     private Boolean registerReceive4Boolean = false;
     private Boolean enable = false;
+    private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
+    private UUID uuid_device;
+    Button btnStartConnection;
+    Button btnSend;
+    EditText etSend;
+
 
     private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -162,7 +173,14 @@ public class BluetoothSearchActivity extends MainActivity{
                             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
                                 Log.d(TAG, "Trying to pair with " + deviceName);
                                 mBTDevices.get(position).createBond();
-                                //Log.d(TAG, String.valueOf(mBTDevices.get(position).get)));
+                                //mBTDevices.get(position).setPairingConfirmation(true);
+                                Log.d(TAG, String.valueOf(mBTDevices.get(position).getUuids()[0].getUuid()));
+                                uuid_device = mBTDevices.get(position).getUuids()[0].getUuid();
+
+                                Log.d(TAG, String.valueOf(mBTDevices.get(position)));
+                                mBTDevice = mBTDevices.get(position);
+
+                                mBluetoothConnection = new BluetoothConnectionService(BluetoothSearchActivity.this);
                             }
                         }
                     });
@@ -189,14 +207,17 @@ public class BluetoothSearchActivity extends MainActivity{
                 //case1: bonded already
                 if (mDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
                     Log.d(TAG, "BroadcastReceiver: BOND_BONDED.");
+                    Toast.makeText(BluetoothSearchActivity.this, "pareado com dispositivo: " + mDevice.getName(), Toast.LENGTH_SHORT).show();
                 }
                 //case2: creating a bone
                 if (mDevice.getBondState() == BluetoothDevice.BOND_BONDING) {
                     Log.d(TAG, "BroadcastReceiver: BOND_BONDING.");
+                    Toast.makeText(BluetoothSearchActivity.this, "pareando com dispositivo: " + mDevice.getName(), Toast.LENGTH_LONG).show();
                 }
                 //case3: breaking a bond
                 if (mDevice.getBondState() == BluetoothDevice.BOND_NONE) {
                     Log.d(TAG, "BroadcastReceiver: BOND_NONE.");
+                    Toast.makeText(BluetoothSearchActivity.this, "não pareado com dispositivo: " + mDevice.getName(), Toast.LENGTH_LONG).show();
                 }
 
                 registerReceive4Boolean = true;
@@ -212,7 +233,6 @@ public class BluetoothSearchActivity extends MainActivity{
         listView = (ListView) findViewById(R.id.listview_bt);
 
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-
         registerReceiver(mBroadcastReceiver4, filter);
         registerReceive4Boolean = true;
 
@@ -232,8 +252,27 @@ public class BluetoothSearchActivity extends MainActivity{
             startActivity(enableBtIntent);
         }
 
+        btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
+        btnSend = (Button) findViewById(R.id.btnSend);
+        etSend = (EditText) findViewById(R.id.editText);
+
+        btnStartConnection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startConnection();
+            }
+        });
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
+                mBluetoothConnection.write(bytes);
+            }
+        });
 
         Log.d(TAG, "Habilitando bluetooth");
+        Toast.makeText(this, "Pesquisando dispositivos", Toast.LENGTH_SHORT).show();
         //enableDisableBT();
 
         Log.d(TAG, "pesquisando dispositivos");
@@ -301,10 +340,12 @@ public class BluetoothSearchActivity extends MainActivity{
 
     public void btnDiscover(/*View v*/) {
         Log.d(TAG, "btnDiscover: Looking for unpaired devices.");
+        Toast.makeText(this, "Pesquisando dispositivos não pareados", Toast.LENGTH_SHORT).show();
         if (enable == false) {
             if (mBluetoothAdapter.isDiscovering()) {
                 mBluetoothAdapter.cancelDiscovery();
                 Log.d(TAG, "btnDiscover: Canceling discovery.");
+
                 //check BT permissions in manifest
                 checkBTPermissions();
 
@@ -357,5 +398,19 @@ public class BluetoothSearchActivity extends MainActivity{
         }
     }
 
+    //create method for starting connection
+//***remember the conncction will fail and app will crash if you haven't paired first
+    public void startConnection(){
 
+        startBTConnection(mBTDevice, uuid_device);
+    }
+
+    /**
+     * starting chat service method
+     */
+    public void startBTConnection(BluetoothDevice device, UUID uuid){
+        Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
+
+        mBluetoothConnection.startClient(device,uuid);
+    }
 }
