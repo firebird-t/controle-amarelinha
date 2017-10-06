@@ -174,13 +174,15 @@ public class BluetoothSearchActivity extends MainActivity{
                                 Log.d(TAG, "Trying to pair with " + deviceName);
                                 mBTDevices.get(position).createBond();
                                 //mBTDevices.get(position).setPairingConfirmation(true);
-                                Log.d(TAG, String.valueOf(mBTDevices.get(position).getUuids()[0].getUuid()));
+                                Log.d(TAG, "UUID: " + String.valueOf(mBTDevices.get(position).getUuids()[0].getUuid()));
                                 uuid_device = mBTDevices.get(position).getUuids()[0].getUuid();
 
-                                Log.d(TAG, String.valueOf(mBTDevices.get(position)));
+                                //Log.d(TAG, String.valueOf(mBTDevices.get(position)));
                                 mBTDevice = mBTDevices.get(position);
-
-                                mBluetoothConnection = new BluetoothConnectionService(BluetoothSearchActivity.this);
+                                if(mBTDevices.get(position).getBondState() == 12){
+                                    Log.d(TAG, "o dispositivo foi pareado com sucesso");
+                                    mBluetoothConnection = new BluetoothConnectionService(BluetoothSearchActivity.this);
+                                }
                             }
                         }
                     });
@@ -267,6 +269,7 @@ public class BluetoothSearchActivity extends MainActivity{
             @Override
             public void onClick(View view) {
                 byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
+                etSend.setText("");
                 mBluetoothConnection.write(bytes);
             }
         });

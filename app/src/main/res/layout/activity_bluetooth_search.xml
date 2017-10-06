@@ -7,7 +7,6 @@
     tools:context="app.leonardo.controle_amarelinha.BluetoothSearchActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp"
-    android:descendantFocusability="blocksDescendants"
     >
 
     <Button
@@ -61,20 +60,21 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/btnStartConnection"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintBaseline_creator="1"
-        tools:layout_constraintRight_creator="1" />
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginRight="16dp" />
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="248dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="144dp"
-        android:layout_marginLeft="67dp"
-        android:layout_marginStart="67dp"
+        android:layout_width="244dp"
+        android:layout_height="56dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1" />
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="156dp"
+        android:layout_marginStart="70dp" />
 
 </android.support.constraint.ConstraintLayout>

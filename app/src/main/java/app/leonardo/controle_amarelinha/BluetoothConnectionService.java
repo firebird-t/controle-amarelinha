@@ -24,7 +24,7 @@ public class BluetoothConnectionService {
 
     private static final String appName = "Controle Amarelinha";
 
-    private static final UUID MY_UUID_INSECURE = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+    private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
     private final BluetoothAdapter mBluetoothAdapter;
     Context mContext;
@@ -201,8 +201,8 @@ public class BluetoothConnectionService {
         Log.d(TAG, "startClient: Started.");
 
         //initprogress dialog
-        mProgressDialog = ProgressDialog.show(mContext,"Connecting Bluetooth"
-                ,"Please Wait...",true);
+        mProgressDialog = ProgressDialog.show(mContext,"Conectando ao dispositivo"
+                ,"Por favor, espere...",true);
 
         mConnectThread = new ConnectThread(device, uuid);
         mConnectThread.start();
