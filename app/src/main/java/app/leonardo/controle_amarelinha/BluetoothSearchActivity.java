@@ -59,6 +59,75 @@ public class BluetoothSearchActivity extends MainActivity{
     EditText etSend;
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bluetooth_search);
+
+        listView = (ListView)findViewById(R.id.listview_bt);
+        Discover = (Button)findViewById(R.id.btnDiscover);
+        btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
+        btnSend = (Button) findViewById(R.id.btnSend);
+        etSend = (EditText) findViewById(R.id.editText);
+
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        registerReceiver(mBroadcastReceiver4, filter);
+        registerReceive4Boolean = true;
+
+        //mBTDevices = new ArrayList<>();
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        Discover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnDiscover();
+            }
+        });
+
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivity(enableBtIntent);
+        }
+
+        btnStartConnection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startConnection();
+            }
+        });
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
+                etSend.setText("");
+                mBluetoothConnection.write(bytes);
+            }
+        });
+
+        Log.d(TAG, "Habilitando bluetooth");
+        Toast.makeText(this, "Pesquisando dispositivos", Toast.LENGTH_SHORT).show();
+        //enableDisableBT();
+
+        Log.d(TAG, "pesquisando dispositivos");
+        btnDiscover();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (registerReceive1Boolean == true)
+            unregisterReceiver(mBroadcastReceiver1);
+
+        if (registerReceive2Boolean == true)
+            unregisterReceiver(mBroadcastReceiver2);
+
+        if (registerReceive3Boolean == true)
+            unregisterReceiver(mBroadcastReceiver3);
+
+        if (registerReceive4Boolean == true)
+            unregisterReceiver(mBroadcastReceiver4);
+    }
+
     private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -228,62 +297,6 @@ public class BluetoothSearchActivity extends MainActivity{
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_bluetooth_search);
-        listView = (ListView) findViewById(R.id.listview_bt);
-
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        registerReceiver(mBroadcastReceiver4, filter);
-        registerReceive4Boolean = true;
-
-        //mBTDevices = new ArrayList<>();
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        Discover = (Button)findViewById(R.id.btnDiscover);
-        Discover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnDiscover();
-            }
-        });
-
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivity(enableBtIntent);
-        }
-
-        btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
-        btnSend = (Button) findViewById(R.id.btnSend);
-        etSend = (EditText) findViewById(R.id.editText);
-
-        btnStartConnection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startConnection();
-            }
-        });
-
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
-                etSend.setText("");
-                mBluetoothConnection.write(bytes);
-            }
-        });
-
-        Log.d(TAG, "Habilitando bluetooth");
-        Toast.makeText(this, "Pesquisando dispositivos", Toast.LENGTH_SHORT).show();
-        //enableDisableBT();
-
-        Log.d(TAG, "pesquisando dispositivos");
-        btnDiscover();
-
-    }
-
-    @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: called.");
         super.onDestroy();
@@ -301,45 +314,6 @@ public class BluetoothSearchActivity extends MainActivity{
             unregisterReceiver(mBroadcastReceiver4);
         //mBluetoothAdapter.cancelDiscovery();
     }
-
-
-    /*public void enableDisableBT() {
-        if (mBluetoothAdapter == null) {
-            Log.d(TAG, "enableDisableBT: Does not have BT capabilities.");
-        }
-
-        if (!mBluetoothAdapter.isEnabled()) {
-            Log.d(TAG, "enableDisableBT: enabling BT.");
-            Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivity(enableBTIntent);
-
-            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-            registerReceiver(mBroadcastReceiver1, BTIntent);
-        }
-
-        if (mBluetoothAdapter.isEnabled()) {
-            Log.d(TAG, "enableDisableBT: disabling BT.");
-            mBluetoothAdapter.disable();
-
-            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-            registerReceiver(mBroadcastReceiver1, BTIntent);
-            Log.d(TAG, "enableDisableBT: enabling BT.");
-        }
-
-    }*/
-
-
-//    public void btnEnableDisable_Discoverable(View view) {
-//        Log.d(TAG, "btnEnableDisable_Discoverable: Making device discoverable for 300 seconds.");
-//
-//        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-//        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-//        startActivity(discoverableIntent);
-//
-//        IntentFilter intentFilter = new IntentFilter(mBluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
-//        registerReceiver(mBroadcastReceiver2, intentFilter);
-//
-//    }
 
     public void btnDiscover(/*View v*/) {
         Log.d(TAG, "btnDiscover: Looking for unpaired devices.");

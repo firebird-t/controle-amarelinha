@@ -30,7 +30,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".BluetoothSearchActivity" />
-        <activity android:name=".Main2Activity" android:label="Conexão Bluetooth"></activity>
+        <activity
+            android:name=".Main2Activity"
+            android:label="Conexão Bluetooth" />
+        <activity android:name=".InteractionActivity" />
+        <activity android:name=".ActionActivity"></activity>
     </application>
 
 </manifest>

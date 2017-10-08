@@ -30,7 +30,7 @@
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/btnDiscover"
+        app:layout_constraintBottom_toTopOf="@id/btnDiscover"
         android:layout_marginStart="27dp"
         android:layout_marginEnd="27dp"
         app:layout_constraintRight_toRightOf="parent"
@@ -48,8 +48,8 @@
         tools:layout_constraintTop_creator="1"
         android:layout_marginStart="16dp"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintTop_toTopOf="@+id/btnDiscover"
-        app:layout_constraintLeft_toRightOf="@+id/btnDiscover" />
+        app:layout_constraintTop_toTopOf="@id/btnDiscover"
+        app:layout_constraintLeft_toRightOf="@id/btnDiscover" />
 
     <Button
         android:id="@+id/btnSend"

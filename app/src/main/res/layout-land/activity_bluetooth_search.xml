@@ -6,38 +6,71 @@
     android:layout_height="match_parent"
     tools:context="app.leonardo.controle_amarelinha.BluetoothSearchActivity"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp"
-    android:descendantFocusability="blocksDescendants"
+    tools:layout_editor_absoluteY="73dp"
     >
 
     <Button
         android:id="@+id/btnDiscover"
-        android:layout_width="156dp"
-        android:layout_height="63dp"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
         android:text="Atualizar"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        android:layout_marginStart="70dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/btnStartConnection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Conectar"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintRight_toRightOf="@+id/listview_bt"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintLeft_toLeftOf="@+id/listview_bt" />
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        android:layout_marginStart="47dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintLeft_toRightOf="@+id/btnStartConnection" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:ems="10"
+        android:inputType="text"
+        android:layout_marginStart="85dp"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="69dp"
+        app:layout_constraintRight_toRightOf="@+id/btnSend"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginBottom="26dp"
+        app:layout_constraintLeft_toLeftOf="@+id/btnDiscover" />
 
     <ListView
         android:id="@+id/listview_bt"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="328dp"
+        android:layout_height="116dp"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/btnDiscover"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="27dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="16dp"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="31dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 </android.support.constraint.ConstraintLayout>
