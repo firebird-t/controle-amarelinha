@@ -29,11 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BluetoothSearchActivity" />
+        <activity android:name=".BluetoothSearchActivity" android:label="Pesquisa"/>
         <activity
             android:name=".Main2Activity"
             android:label="Avatares" />
-        <activity android:name=".InteractionActivity" />
+        <activity android:name=".InteractionActivity" android:label="Tipo de Interação"/>
         <activity android:name=".ActionActivity"></activity>
     </application>
 
