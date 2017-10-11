@@ -104,7 +104,38 @@ public class BluetoothSearchActivity extends MainActivity{
             }
         });
 
-        Log.d(TAG, "Habilitando bluetooth");
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mBluetoothAdapter.cancelDiscovery();
+
+                Log.d(TAG, "onItemClick: You Clicked on a device.");
+                String deviceName = mBTDevices.get(position).getName();
+                String deviceAddress = mBTDevices.get(position).getAddress();
+
+                Log.d(TAG, "onItemClick: deviceName = " + deviceName);
+                Log.d(TAG, "onItemClick: deviceAddress = " + deviceAddress);
+
+                //create the bond.
+                //NOTE: Requires API 17+? I think this is JellyBean
+                if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
+                    Log.d(TAG, "Trying to pair with " + deviceName);
+                    mBTDevices.get(position).createBond();
+                    //mBTDevices.get(position).setPairingConfirmation(true);
+                    Log.d(TAG, "UUID: " + String.valueOf(mBTDevices.get(position).getUuids()[0].getUuid()));
+                    uuid_device = mBTDevices.get(position).getUuids()[0].getUuid();
+
+                    //Log.d(TAG, String.valueOf(mBTDevices.get(position)));
+                    mBTDevice = mBTDevices.get(position);
+                    if(mBTDevices.get(position).getBondState() == 12){
+                        Log.d(TAG, "o dispositivo foi pareado com sucesso");
+                        mBluetoothConnection = new BluetoothConnectionService(BluetoothSearchActivity.this);
+                    }
+                }
+            }
+        });
+
+        //Log.d(TAG, "Habilitando bluetooth");
         Toast.makeText(this, "Pesquisando dispositivos", Toast.LENGTH_SHORT).show();
         //enableDisableBT();
 
@@ -222,39 +253,7 @@ public class BluetoothSearchActivity extends MainActivity{
 
                 if(device_existent == false){
                     mDeviceList.add(device.getName() + "\n" + device.getAddress());
-
                     listView.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, mDeviceList));
-
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            mBluetoothAdapter.cancelDiscovery();
-
-                            Log.d(TAG, "onItemClick: You Clicked on a device.");
-                            String deviceName = mBTDevices.get(position).getName();
-                            String deviceAddress = mBTDevices.get(position).getAddress();
-
-                            Log.d(TAG, "onItemClick: deviceName = " + deviceName);
-                            Log.d(TAG, "onItemClick: deviceAddress = " + deviceAddress);
-
-                            //create the bond.
-                            //NOTE: Requires API 17+? I think this is JellyBean
-                            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
-                                Log.d(TAG, "Trying to pair with " + deviceName);
-                                mBTDevices.get(position).createBond();
-                                //mBTDevices.get(position).setPairingConfirmation(true);
-                                Log.d(TAG, "UUID: " + String.valueOf(mBTDevices.get(position).getUuids()[0].getUuid()));
-                                uuid_device = mBTDevices.get(position).getUuids()[0].getUuid();
-
-                                //Log.d(TAG, String.valueOf(mBTDevices.get(position)));
-                                mBTDevice = mBTDevices.get(position);
-                                if(mBTDevices.get(position).getBondState() == 12){
-                                    Log.d(TAG, "o dispositivo foi pareado com sucesso");
-                                    mBluetoothConnection = new BluetoothConnectionService(BluetoothSearchActivity.this);
-                                }
-                            }
-                        }
-                    });
                     Log.d(TAG, "onReceive: " + device.getName() + ": " + device.getAddress());
                 }
 
