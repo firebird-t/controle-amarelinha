@@ -236,7 +236,7 @@ public class BluetoothSearchActivity extends MainActivity{
 
         listView = (ListView)findViewById(R.id.listview_bt);
         Discover = (Button)findViewById(R.id.btnDiscover);
-        btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
+        //btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
         btnSend = (Button) findViewById(R.id.btnSend);
         etSend = (EditText) findViewById(R.id.editText);
 
@@ -244,7 +244,7 @@ public class BluetoothSearchActivity extends MainActivity{
         registerReceiver(mBroadcastReceiver4, filter);
         registerReceive4Boolean = true;
 
-        //mBTDevices = new ArrayList<>();
+        mBTDevices = new ArrayList<>();
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         Discover.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,13 +261,6 @@ public class BluetoothSearchActivity extends MainActivity{
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(mBroadcastReceiver1, BTIntent);
         }
-
-        btnStartConnection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startConnection();
-            }
-        });
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,6 +297,7 @@ public class BluetoothSearchActivity extends MainActivity{
                     if(mBTDevices.get(position).getBondState() == 12){
                         Log.d(TAG, "o dispositivo foi pareado com sucesso");
                         mBluetoothConnection = new BluetoothConnectionService(BluetoothSearchActivity.this);
+                        startBTConnection(mBTDevice, uuid_device);
                     }
                 }
             }
@@ -377,12 +371,12 @@ public class BluetoothSearchActivity extends MainActivity{
         }
     }
 
-    //create method for starting connection
-//***remember the conncction will fail and app will crash if you haven't paired first
-    public void startConnection(){
-
-        startBTConnection(mBTDevice, uuid_device);
-    }
+//    //create method for starting connection
+////***remember the conncction will fail and app will crash if you haven't paired first
+//    public void startConnection(){
+//
+//        startBTConnection(mBTDevice, uuid_device);
+//    }
 
     /**
      * starting chat service method

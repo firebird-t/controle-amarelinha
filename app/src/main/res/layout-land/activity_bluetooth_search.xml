@@ -16,22 +16,8 @@
         android:text="Atualizar"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toTopOf="@+id/editText"
-        android:layout_marginStart="70dp"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="14dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <Button
-        android:id="@+id/btnStartConnection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Conectar"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
-        app:layout_constraintRight_toRightOf="@+id/listview_bt"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintLeft_toLeftOf="@+id/listview_bt" />
 
     <Button
@@ -39,28 +25,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enviar"
+        tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toTopOf="@+id/editText"
-        android:layout_marginStart="47dp"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="14dp"
-        app:layout_constraintLeft_toRightOf="@+id/btnStartConnection" />
+        app:layout_constraintRight_toRightOf="@+id/listview_bt"
+        android:layout_marginBottom="20dp" />
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_width="276dp"
+        android:layout_height="52dp"
         android:ems="10"
         android:inputType="text"
-        android:layout_marginStart="85dp"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="69dp"
-        app:layout_constraintRight_toRightOf="@+id/btnSend"
+        app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="26dp"
-        app:layout_constraintLeft_toLeftOf="@+id/btnDiscover" />
+        android:layout_marginBottom="33dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <ListView
         android:id="@+id/listview_bt"

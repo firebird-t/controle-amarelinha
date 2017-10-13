@@ -10,19 +10,21 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
-import java.util.logging.Handler;
 
 
 public class BluetoothConnectionService {
     private static final String TAG = "BluetoothConnectionServ";
-
+    protected static final int MESSAGE_READ = 1;
     private static final String appName = "Controle Amarelinha";
 
     private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
@@ -118,7 +120,7 @@ public class BluetoothConnectionService {
         private UUID uuid;
 
         public ConnectThread(BluetoothDevice device, UUID uuid) {
-            Log.d(TAG, "ConnectThread: started.");
+            Log.d(TAG, "ConnectThread: Iniciada.");
             mmDevice = device;
             deviceUUID = uuid;
         }
@@ -199,7 +201,7 @@ public class BluetoothConnectionService {
      **/
 
     public void startClient(BluetoothDevice device,UUID uuid){
-        Log.d(TAG, "startClient: Started.");
+        Log.d(TAG, "Iniciando cliente.");
 
         //initprogress dialog
         mProgressDialog = ProgressDialog.show(mContext,"Conectando ao dispositivo"
@@ -213,13 +215,34 @@ public class BluetoothConnectionService {
      Finally the ConnectedThread which is responsible for maintaining the BTConnection, Sending the data, and
      receiving incoming data through input/output streams respectively.
      **/
+
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            Log.i(TAG, "Handler");
+            super.handleMessage(msg);
+            switch(msg.what){
+                case MESSAGE_READ:
+                    byte[] readBuf = (byte[])msg.obj;
+                    String string = new String(readBuf);
+                    Log.d(TAG,string);
+                    //Toast.makeText(getApplicationContext(), string, 0).show();
+                    break;
+            }
+        }
+    };
+
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
 
+
+
+
         public ConnectedThread(BluetoothSocket socket) {
-            Log.d(TAG, "ConnectedThread: Starting.");
+            Log.d(TAG, "ConnectedThread: Iniciada.");
 
             mmSocket = socket;
             InputStream tmpIn = null;
@@ -245,25 +268,30 @@ public class BluetoothConnectionService {
         }
 
         public void run(){
-            byte[] buffer = new byte[1024];  // buffer store for the stream
+            byte[] buffer = new byte[4096];  // buffer store for the stream
 
             int bytes = 0; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
-
+            String entrada = null;
+            int contador = 0;
             while (true) {
                 // Read from the InputStream
                 try {
                     bytes = mmInStream.read(buffer);
-                    //mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
-                    String entrada = new String(buffer, 0,bytes);
-                    Log.d(TAG, "Dados recebidos: " + entrada);
-
+                    contador++;
+                    //Log.d("Buffer ",  new String(buffer, 0,bytes));
+                    //if(entrada == null)
+                        entrada = new String(buffer, 0,bytes);
+                   // else
+                        //entrada += new String(buffer, 0,bytes);
                     //entrada.append(incomingMessage);
                     //entrada.equals("");
                 } catch (IOException e) {
                     Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
                     break;
                 }
+
+                Log.d("Entrada de dados ", entrada + " Contador:" + contador);
             }
 
         }
@@ -276,7 +304,7 @@ public class BluetoothConnectionService {
             try {
                 mmOutStream.write(bytes);
             } catch (IOException e) {
-                Log.e(TAG, "write: Error writing to output stream. " + e.getMessage() );
+                Log.e(TAG, "write: erro ao escrever para o output stream. " + e.getMessage() );
             }
         }
 
