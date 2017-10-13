@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
+import java.util.logging.Handler;
 
 
 public class BluetoothConnectionService {
@@ -246,26 +247,32 @@ public class BluetoothConnectionService {
         public void run(){
             byte[] buffer = new byte[1024];  // buffer store for the stream
 
-            int bytes; // bytes returned from read()
-
+            int bytes = 0; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
+
             while (true) {
                 // Read from the InputStream
                 try {
                     bytes = mmInStream.read(buffer);
-                    String incomingMessage = new String(buffer, 0, bytes);
-                    Log.d(TAG, "InputStream: " + incomingMessage);
+                    //mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+                    String entrada = new String(buffer, 0,bytes);
+                    Log.d(TAG, "Dados recebidos: " + entrada);
+
+                    //entrada.append(incomingMessage);
+                    //entrada.equals("");
                 } catch (IOException e) {
                     Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
                     break;
                 }
             }
+
         }
+
 
         //Call this from the main activity to send data to the remote device
         public void write(byte[] bytes) {
             String text = new String(bytes, Charset.defaultCharset());
-            Log.d(TAG, "write: Writing to outputstream: " + text);
+            Log.d(TAG, "Saída: " + text);
             try {
                 mmOutStream.write(bytes);
             } catch (IOException e) {
