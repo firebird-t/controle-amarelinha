@@ -65,7 +65,7 @@ public class BluetoothConnectionService {
             try{
                 tmp = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(appName, MY_UUID_INSECURE);
 
-                Log.d(TAG, "AcceptThread: Setting up Server using: " + MY_UUID_INSECURE);
+                Log.d(TAG, "AcceptThread: configurando o servidor usando o UUID: " + MY_UUID_INSECURE);
             }catch (IOException e){
                 Log.e(TAG, "AcceptThread: IOException: " + e.getMessage() );
             }
@@ -74,7 +74,7 @@ public class BluetoothConnectionService {
         }
 
         public void run(){
-            Log.d(TAG, "run: AcceptThread Running.");
+            Log.d(TAG, "run: AcceptThread rodando.");
 
             BluetoothSocket socket = null;
 
@@ -85,7 +85,7 @@ public class BluetoothConnectionService {
 
                 socket = mmServerSocket.accept();
 
-                Log.d(TAG, "run: RFCOM server socket accepted connection.");
+                Log.d(TAG, "run: RFCOM server socket aceitou a conexão.");
 
             }catch (IOException e){
                 Log.e(TAG, "AcceptThread: IOException: " + e.getMessage() );
@@ -239,8 +239,6 @@ public class BluetoothConnectionService {
         private final OutputStream mmOutStream;
 
 
-
-
         public ConnectedThread(BluetoothSocket socket) {
             Log.d(TAG, "ConnectedThread: Iniciada.");
 
@@ -279,21 +277,22 @@ public class BluetoothConnectionService {
                 try {
                     bytes = mmInStream.read(buffer);
                     contador++;
-                    //Log.d("Buffer ",  new String(buffer, 0,bytes));
-                    //if(entrada == null)
-                        entrada = new String(buffer, 0,bytes);
-                   // else
-                        //entrada += new String(buffer, 0,bytes);
-                    //entrada.append(incomingMessage);
-                    //entrada.equals("");
+                    if(entrada == null) {
+                        entrada = (new String(buffer, 0, bytes)).trim();
+
+                    }else {
+                        entrada += (new String(buffer, 0, bytes)).trim();
+                    }
                 } catch (IOException e) {
                     Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
                     break;
                 }
 
-                Log.d("Entrada de dados ", entrada + " Contador:" + contador);
+                if(entrada.contains("|")) {
+                    Log.d("Entrada de dados ", entrada + " Contador:" + contador);
+                    entrada = null;
+                }
             }
-
         }
 
 
