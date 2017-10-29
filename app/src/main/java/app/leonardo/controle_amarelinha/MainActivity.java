@@ -55,35 +55,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent escolhe_avatar = new Intent(MainActivity.this, Main2Activity.class);
-                startActivity(escolhe_avatar);
+                Intent busca_dispositivos = new Intent(MainActivity.this, BluetoothSearchActivity.class);
+                startActivityForResult(busca_dispositivos, 1);
+
             }
         });
 
         //Conexão Bluetooth
         //bt_button = (Button) findViewById(R.id.button5);
-        bt_conect = (Button) findViewById(R.id.bt_conect);
-        bt_conect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent busca_dispositivos = new Intent(MainActivity.this, BluetoothSearchActivity.class);
-                startActivityForResult(busca_dispositivos, 1);
-            }
-        });
-
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+//        bt_conect = (Button) findViewById(R.id.bt_conect);
+//        bt_conect.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent busca_dispositivos = new Intent(MainActivity.this, BluetoothSearchActivity.class);
+//                startActivityForResult(busca_dispositivos, 1);
+//            }
+//        });
+//
+        //mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         //lvNewDevices = (ListView)findViewById(R.id.listview_bt);
 
         //Iniciliazação dos Sensores
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        //Intents
-        //Intent bt_discovery_intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        //bt_discovery_intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-        //startActivity(bt_discovery_intent);
-
     }
 
 

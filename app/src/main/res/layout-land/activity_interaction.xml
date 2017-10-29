@@ -4,18 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.leonardo.controle_amarelinha.InteractionActivity">
+    tools:context="app.leonardo.controle_amarelinha.InteractionActivity"
+    tools:layout_editor_absoluteY="73dp">
 
-    <Button
-        android:id="@+id/button3"
+    <ImageButton
+        android:id="@+id/imgRockRelease"
+        android:layout_width="57dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:srcCompat="@android:drawable/arrow_up_float" />
+
+    <ImageButton
+        android:id="@+id/imgSimpleButton"
+        android:layout_width="57dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="39dp"
+        android:layout_marginEnd="181dp"
+        android:layout_marginTop="37dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgAgita"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/arrow_up_float" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="83dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="53dp"
+        android:text="Lançar pedra"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView10"
+        app:layout_constraintStart_toStartOf="@+id/imgAgita" />
+
+    <ImageButton
+        android:id="@+id/imgAgita"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="177dp"
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        app:layout_constraintEnd_toStartOf="@+id/imgSimpleButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        app:srcCompat="@android:drawable/arrow_up_float" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="Botão simples"
+        app:layout_constraintBottom_toBottomOf="@+id/textView10"
+        app:layout_constraintStart_toStartOf="@+id/imgSimpleButton"
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Avançar"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="59dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginBottom="40dp"
+        android:layout_marginStart="94dp"
+        android:text="Agitar o celular"
+        app:layout_constraintBottom_toTopOf="@+id/imgRockRelease"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

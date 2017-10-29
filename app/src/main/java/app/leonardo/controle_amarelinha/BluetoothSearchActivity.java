@@ -7,6 +7,7 @@ package app.leonardo.controle_amarelinha;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -14,6 +15,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,8 +41,8 @@ public class BluetoothSearchActivity extends MainActivity{
     BluetoothConnectionService mBluetoothConnection;
     BluetoothAdapter mBluetoothAdapter;
     BluetoothDevice mBTDevice;
-    Button btnEnableDisable_Discoverable;
-    Button btnEnable;
+    //Button btnEnableDisable_Discoverable;
+    //Button btnEnable;
     Button Discover;
     ListView listView;
     private ProgressDialog progressDialog;
@@ -49,11 +51,111 @@ public class BluetoothSearchActivity extends MainActivity{
     private Boolean registerReceive3Boolean = false;
     private Boolean registerReceive4Boolean = false;
     private Boolean enable = false;
-    private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
+    private Boolean valid_device = false;
+    //private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
     private UUID uuid_device;
-    Button btnStartConnection;
+    //Button btnStartConnection;
+    Button btnNext;
     Button btnSend;
     EditText etSend;
+    public Bundle bundle;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bluetooth_search);
+
+        listView = (ListView)findViewById(R.id.listview_bt);
+        Discover = (Button)findViewById(R.id.btnDiscover);
+        //btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
+        btnSend = (Button) findViewById(R.id.btnSend);
+        btnNext = (Button)findViewById(R.id.bntNext);
+        etSend = (EditText) findViewById(R.id.editText);
+        bundle = new Bundle();
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        registerReceiver(mBroadcastReceiver4, filter);
+        registerReceive4Boolean = true;
+
+        mBTDevices = new ArrayList<>();
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        Discover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnDiscover();
+            }
+        });
+
+        if (!mBluetoothAdapter.isEnabled()) {
+            registerReceive1Boolean = true;
+            Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivity(enableBTIntent);
+
+            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+            registerReceiver(mBroadcastReceiver1, BTIntent);
+        }
+/*
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
+                etSend.setText("");
+                mBluetoothConnection.write(bytes);
+            }
+        });*/
+
+        btnNext.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(valid_device) {
+                    Intent quant_jogadores = new Intent(BluetoothSearchActivity.this,Main2Activity.class);
+                    quant_jogadores.putExtras(bundle);
+                    startActivity(quant_jogadores);
+                }else {
+                    Toast.makeText(BluetoothSearchActivity.this,"Um dispositivo deve ser selecionado", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //@Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mBluetoothAdapter.cancelDiscovery();
+
+                Log.d(TAG, "Item Selecionado.");
+                String deviceName = mBTDevices.get(position).getName();
+                String deviceAddress = mBTDevices.get(position).getAddress();
+
+                Log.d(TAG, "Nome do dispositivo = " + deviceName);
+                Log.d(TAG, "Endereço do dispositivo = " + deviceAddress);
+
+                //create the bond.
+                //NOTE: Requires API 17+? I think this is JellyBean
+                if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
+                    Log.d(TAG, "Tentando parear com o dispositivo " + deviceName);
+                    mBTDevices.get(position).createBond();
+
+                    Log.d(TAG, "UUID: " + String.valueOf(mBTDevices.get(position).getUuids()[0].getUuid()));
+                    uuid_device = mBTDevices.get(position).getUuids()[0].getUuid();
+
+                    mBTDevice = mBTDevices.get(position);
+                    if(mBTDevices.get(position).getBondState() == 12){
+                        Log.d(TAG, "o dispositivo foi pareado com sucesso");
+
+                        bundle.putString("device",uuid_device.toString());
+                        valid_device = true;
+                        //mBluetoothConnection = new BluetoothConnectionService(BluetoothSearchActivity.this);
+                        //startBTConnection(mBTDevice, uuid_device);
+                    }
+                }
+            }
+        });
+        //Log.d(TAG, "Habilitando bluetooth");
+        Toast.makeText(this, "Pesquisando dispositivos", Toast.LENGTH_SHORT).show();
+        //enableDisableBT();
+
+        Log.d(TAG, "pesquisando dispositivos");
+        //btnDiscover();
+    }
 
     @Override
     public void onResume(){
@@ -226,101 +328,19 @@ public class BluetoothSearchActivity extends MainActivity{
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bluetooth_search);
-
-        listView = (ListView)findViewById(R.id.listview_bt);
-        Discover = (Button)findViewById(R.id.btnDiscover);
-        //btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
-        btnSend = (Button) findViewById(R.id.btnSend);
-        etSend = (EditText) findViewById(R.id.editText);
-
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        registerReceiver(mBroadcastReceiver4, filter);
-        registerReceive4Boolean = true;
-
-        mBTDevices = new ArrayList<>();
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Discover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnDiscover();
-            }
-        });
-
-        if (!mBluetoothAdapter.isEnabled()) {
-            registerReceive1Boolean = true;
-            Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivity(enableBTIntent);
-
-            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-            registerReceiver(mBroadcastReceiver1, BTIntent);
-        }
-
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
-                etSend.setText("");
-                mBluetoothConnection.write(bytes);
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mBluetoothAdapter.cancelDiscovery();
-
-                Log.d(TAG, "onItemClick: You Clicked on a device.");
-                String deviceName = mBTDevices.get(position).getName();
-                String deviceAddress = mBTDevices.get(position).getAddress();
-
-                Log.d(TAG, "onItemClick: deviceName = " + deviceName);
-                Log.d(TAG, "onItemClick: deviceAddress = " + deviceAddress);
-
-                //create the bond.
-                //NOTE: Requires API 17+? I think this is JellyBean
-                if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
-                    Log.d(TAG, "Trying to pair with " + deviceName);
-                    mBTDevices.get(position).createBond();
-                    //mBTDevices.get(position).setPairingConfirmation(true);
-                    Log.d(TAG, "UUID: " + String.valueOf(mBTDevices.get(position).getUuids()[0].getUuid()));
-                    uuid_device = mBTDevices.get(position).getUuids()[0].getUuid();
-
-                    //Log.d(TAG, String.valueOf(mBTDevices.get(position)));
-                    mBTDevice = mBTDevices.get(position);
-                    if(mBTDevices.get(position).getBondState() == 12){
-                        Log.d(TAG, "o dispositivo foi pareado com sucesso");
-                        mBluetoothConnection = new BluetoothConnectionService(BluetoothSearchActivity.this);
-                        startBTConnection(mBTDevice, uuid_device);
-                    }
-                }
-            }
-        });
-        //Log.d(TAG, "Habilitando bluetooth");
-        Toast.makeText(this, "Pesquisando dispositivos", Toast.LENGTH_SHORT).show();
-        //enableDisableBT();
-
-        Log.d(TAG, "pesquisando dispositivos");
-        //btnDiscover();
-    }
-
-
     public void btnDiscover(/*View v*/) {
         Log.d(TAG, "btnDiscover: Looking for unpaired devices.");
         Toast.makeText(this, "Pesquisando dispositivos não pareados", Toast.LENGTH_SHORT).show();
         if (!enable) {
             if (mBluetoothAdapter.isDiscovering()) {
                 mBluetoothAdapter.cancelDiscovery();
-                Log.d(TAG, "btnDiscover: Canceling discovery.");
+                Log.d(TAG, "btnDiscover: Cancelando descoberta.");
 
                 //check BT permissions in manifest
                 checkBTPermissions();
 
                 mBluetoothAdapter.startDiscovery();
-                Log.d(TAG, "btnDiscover: Starting Discovery.");
+                Log.d(TAG, "btnDiscover: Iniciando descoberta.");
                 IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
                 registerReceiver(mBroadcastReceiver3, discoverDevicesIntent);
             }
@@ -378,9 +398,9 @@ public class BluetoothSearchActivity extends MainActivity{
     /**
      * starting chat service method
      */
-    public void startBTConnection(BluetoothDevice device, UUID uuid){
+   /* public void startBTConnection(BluetoothDevice device, UUID uuid){
         Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
 
         mBluetoothConnection.startClient(device,uuid);
-    }
+    }*/
 }
