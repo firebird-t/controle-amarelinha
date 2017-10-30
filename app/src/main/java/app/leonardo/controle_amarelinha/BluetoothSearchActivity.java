@@ -71,6 +71,7 @@ public class BluetoothSearchActivity extends MainActivity{
         //btnSend = (Button) findViewById(R.id.btnSend);
         btnNext = (Button)findViewById(R.id.bntNext);
         //etSend = (EditText) findViewById(R.id.editText);
+
         bundle = new Bundle();
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(mBroadcastReceiver4, filter);
@@ -163,6 +164,7 @@ public class BluetoothSearchActivity extends MainActivity{
     @Override
     public void onResume(){
        super.onResume();
+       Log.d("BluetoothSearchActivity","Tela rotacionada");
 //        if (registerReceive1Boolean)
 //            unregisterReceiver(mBroadcastReceiver1);
 //
@@ -174,6 +176,8 @@ public class BluetoothSearchActivity extends MainActivity{
 //
 //        if (registerReceive4Boolean)
 //            unregisterReceiver(mBroadcastReceiver4);
+
+
     }
 
     private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {

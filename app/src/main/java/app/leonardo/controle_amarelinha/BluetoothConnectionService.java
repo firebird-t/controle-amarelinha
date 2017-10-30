@@ -38,7 +38,7 @@ public class BluetoothConnectionService {
     private BluetoothDevice mmDevice;
     private UUID deviceUUID;
     ProgressDialog mProgressDialog;
-
+    public Boolean conn_status = false;
     private ConnectedThread mConnectedThread;
 
     public BluetoothConnectionService(Context context) {
@@ -164,6 +164,7 @@ public class BluetoothConnectionService {
 
             //will talk about this in the 3rd video
             connected(mmSocket,mmDevice);
+
         }
         public void cancel() {
             try {
@@ -321,6 +322,7 @@ public class BluetoothConnectionService {
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(mmSocket);
         mConnectedThread.start();
+        conn_status = true;
     }
 
     /**

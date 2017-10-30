@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 
 import org.json.JSONException;
 
+import java.nio.charset.Charset;
 import java.util.UUID;
 
 public class InteractionActivity extends AppCompatActivity {
@@ -38,31 +39,35 @@ public class InteractionActivity extends AppCompatActivity {
         mBluetoothConnection = new BluetoothConnectionService(InteractionActivity.this);
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mBTDevice = mBluetoothAdapter.getRemoteDevice(bundle.getString("address"));
+        startBTConnection(mBTDevice, UUID.fromString(bundle.getString("device")));
 
         Log.d("k6","DEVICE UUID: " + bundle.getString("device"));
         Log.d("k6", "Device Address: " + bundle.getString("address"));
         Log.d("K6", bundle.getString("quant_users"));
 
         try {
-
             jsonControl.add_data("device", bundle.getString("device"));
             jsonControl.add_data("address",bundle.getString("address"));
             jsonControl.add_data("quant_users",bundle.getString("quant_users"));
-            String tmp =jsonControl.json_prepare();
-            data_send = tmp.getBytes();
-            mBluetoothConnection.write(data_send);
+            String tmp = jsonControl.json_prepare();
+            data_send = tmp.getBytes(Charset.defaultCharset());
+            Log.d("Data send", tmp);
+            while (true){
+                if(mBluetoothConnection.conn_status){
+                    mBluetoothConnection.write(data_send);
+                    Log.d("InteractionActivity","Dados enviados");
+                    break;
+                }
+            }
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
-        startBTConnection(mBTDevice, UUID.fromString(bundle.getString("device")));
-
         btnAgita = (ImageButton)findViewById(R.id.imgAgita);
         btnRockRelease = (ImageButton)findViewById(R.id.imgRockRelease);
         btnSimple = (ImageButton)findViewById(R.id.imgSimpleButton);
-
         btnAgita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,9 +98,5 @@ public class InteractionActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
-
-        mBluetoothConnection = new BluetoothConnectionService(InteractionActivity.this);
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        mBTDevice = mBluetoothAdapter.getRemoteDevice(bundle.getString("address"));
     }
 }
