@@ -2,7 +2,11 @@ package app.leonardo.controle_amarelinha;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +39,7 @@ public class InteractionActivity extends AppCompatActivity {
 
         bundle = getIntent().getExtras();
         jsonControl = new JsonControl();
-
+        LocalBroadcastManager.getInstance(InteractionActivity.this).registerReceiver(mReceiver, new IntentFilter("SendMessage"));
         mBluetoothConnection = new BluetoothConnectionService(InteractionActivity.this);
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mBTDevice = mBluetoothAdapter.getRemoteDevice(bundle.getString("address"));
@@ -45,25 +49,6 @@ public class InteractionActivity extends AppCompatActivity {
         Log.d("k6", "Device Address: " + bundle.getString("address"));
         Log.d("K6", bundle.getString("quant_users"));
 
-        try {
-            jsonControl.add_data("device", bundle.getString("device"));
-            jsonControl.add_data("address",bundle.getString("address"));
-            jsonControl.add_data("quant_users",bundle.getString("quant_users"));
-            String tmp = jsonControl.json_prepare();
-            data_send = tmp.getBytes(Charset.defaultCharset());
-            Log.d("Data send", tmp);
-            while (true){
-                if(mBluetoothConnection.conn_status){
-                    mBluetoothConnection.write(data_send);
-                    Log.d("InteractionActivity","Dados enviados");
-                    break;
-                }
-            }
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         btnAgita = (ImageButton)findViewById(R.id.imgAgita);
         btnRockRelease = (ImageButton)findViewById(R.id.imgRockRelease);
@@ -98,5 +83,29 @@ public class InteractionActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
+    }
+
+    BroadcastReceiver mReceiver = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                jsonControl.add_data("device", bundle.getString("device"));
+                jsonControl.add_data("address",bundle.getString("address"));
+                jsonControl.add_data("quant_users",bundle.getString("quant_users"));
+                String tmp = jsonControl.json_prepare();
+                data_send = tmp.getBytes(Charset.defaultCharset());
+                Log.d("Data send", tmp);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mBluetoothConnection.write(data_send);
+            Log.d("InteractionActivity","Dados enviados");
+        }
+    };
+
+    protected void onDestroy(){
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
     }
 }

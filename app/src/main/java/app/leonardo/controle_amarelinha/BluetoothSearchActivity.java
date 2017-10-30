@@ -94,15 +94,15 @@ public class BluetoothSearchActivity extends MainActivity{
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(mBroadcastReceiver1, BTIntent);
         }
-/*
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
-                etSend.setText("");
-                mBluetoothConnection.write(bytes);
-            }
-        });*/
+
+//        btnSend.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
+//                etSend.setText("");
+//                mBluetoothConnection.write(bytes);
+//            }
+//        });
 
         btnNext.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -404,10 +404,11 @@ public class BluetoothSearchActivity extends MainActivity{
 
     /**
      * starting chat service method
-     */
-   /* public void startBTConnection(BluetoothDevice device, UUID uuid){
+
+    public void startBTConnection(BluetoothDevice device, UUID uuid){
         Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
 
         mBluetoothConnection.startClient(device,uuid);
-    }*/
+    }
+     */
 }

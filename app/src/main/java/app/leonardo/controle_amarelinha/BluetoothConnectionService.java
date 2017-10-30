@@ -10,8 +10,10 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -217,23 +219,6 @@ public class BluetoothConnectionService {
      receiving incoming data through input/output streams respectively.
      **/
 
-    Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            Log.i(TAG, "Handler");
-            super.handleMessage(msg);
-            switch(msg.what){
-                case MESSAGE_READ:
-                    byte[] readBuf = (byte[])msg.obj;
-                    String string = new String(readBuf);
-                    Log.d(TAG,string);
-                    //Toast.makeText(getApplicationContext(), string, 0).show();
-                    break;
-            }
-        }
-    };
-
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
@@ -267,7 +252,7 @@ public class BluetoothConnectionService {
         }
 
         public void run(){
-            byte[] buffer = new byte[4096];  // buffer store for the stream
+            byte[] buffer = new byte[1024];  // buffer store for the stream
 
             int bytes = 0; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
@@ -280,7 +265,6 @@ public class BluetoothConnectionService {
                     contador++;
                     if(entrada == null) {
                         entrada = (new String(buffer, 0, bytes)).trim();
-
                     }else {
                         entrada += (new String(buffer, 0, bytes)).trim();
                     }
@@ -289,6 +273,7 @@ public class BluetoothConnectionService {
                     break;
                 }
 
+                //Log.d("Entrada de dados ", entrada + " Contador:" + contador);
                 if(entrada.contains("|")) {
                     Log.d("Entrada de dados ", entrada + " Contador:" + contador);
                     entrada = null;
@@ -322,7 +307,10 @@ public class BluetoothConnectionService {
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(mmSocket);
         mConnectedThread.start();
-        conn_status = true;
+        Intent conn_status = new Intent("SendMessage");
+        conn_status.putExtra("conection",true);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(conn_status);
+        Log.d(TAG,"Local Broadcast Called");
     }
 
     /**
