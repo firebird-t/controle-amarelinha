@@ -15,12 +15,12 @@ public class ActionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_action);
 
         bundle = getIntent().getExtras();
-        String uuid = bundle.getString("uuid");
+        String uuid = bundle.getString("device");
         String qJogadores = bundle.getString("quant_users");
         //String tInteraction = bundle.getString("");
 
         Log.d("k6","UUID: " + uuid);
-        Log.d("k6","Usuários: " + uuid);
+        Log.d("k6","Usuários: " + qJogadores);
 
     }
 }

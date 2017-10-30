@@ -27,11 +27,12 @@ public class Main2Activity extends AppCompatActivity {
         editText = (EditText)findViewById(R.id.editText2);
         button2 = (Button)findViewById(R.id.button2);
         bundle = getIntent().getExtras();
+       //editText.setText("0");
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(editText.getText().toString()) > 0) {
+                if(!editText.getText().toString().isEmpty() && Integer.parseInt(editText.getText().toString()) > 0) {
                     bundle.putString("quant_users", editText.getText().toString());
                     Intent escolhe_interacao = new Intent(Main2Activity.this, InteractionActivity.class);
                     escolhe_interacao.putExtras(bundle);

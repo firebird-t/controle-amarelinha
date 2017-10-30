@@ -10,27 +10,15 @@
         android:id="@+id/button"
         android:layout_width="173dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="54dp"
         android:background="@color/ButtonStart"
-        android:text="Jogar"
+        android:text="Iniciar"
         android:textColor="@color/WhiteLetter"
-        app:layout_constraintBottom_toTopOf="@+id/bt_conect"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
-
-    <Button
-        android:id="@+id/bt_conect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="94dp"
-        android:layout_marginStart="38dp"
-        android:text="Conectar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/button"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1" />
+        tools:layout_constraintRight_creator="1"
+        tools:layout_editor_absoluteY="153dp" />
 
 </android.support.constraint.ConstraintLayout>

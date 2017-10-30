@@ -1,5 +1,7 @@
 package app.leonardo.controle_amarelinha;
 
+import android.util.JsonReader;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,25 +11,23 @@ import org.json.JSONObject;
 
 public class JsonControl {
     public JSONObject json_entrada;
-    public JSONObject json_saida;
+    JSONObject jsonObject;
 
     public JsonControl() {
-
+        jsonObject = new JSONObject();
     }
 
-    private JSONObject json_send(JSONObject out_obj) throws JSONException {
-        String json;
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.accumulate("tipo", "");
-        jsonObject.accumulate("info", "");
-        jsonObject.accumulate("teste", "");
-        json = jsonObject.toString();
-
-        return out_obj;
+    public void add_data(String field, String valor) throws JSONException {
+        jsonObject.accumulate(field, valor);
     }
 
-    private JSONObject json_read(JSONObject in_obj) {
-        return in_obj;
+    public String json_prepare() {
+        return jsonObject.toString();
+    }
+
+    public String json_read(String input_stream, String field) throws JSONException {
+        json_entrada = new JSONObject(input_stream);
+        String tmp = json_entrada.getString(field);
+        return tmp;
     }
 }

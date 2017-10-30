@@ -68,9 +68,9 @@ public class BluetoothSearchActivity extends MainActivity{
         listView = (ListView)findViewById(R.id.listview_bt);
         Discover = (Button)findViewById(R.id.btnDiscover);
         //btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
-        btnSend = (Button) findViewById(R.id.btnSend);
+        //btnSend = (Button) findViewById(R.id.btnSend);
         btnNext = (Button)findViewById(R.id.bntNext);
-        etSend = (EditText) findViewById(R.id.editText);
+        //etSend = (EditText) findViewById(R.id.editText);
         bundle = new Bundle();
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(mBroadcastReceiver4, filter);
@@ -142,6 +142,9 @@ public class BluetoothSearchActivity extends MainActivity{
                         Log.d(TAG, "o dispositivo foi pareado com sucesso");
 
                         bundle.putString("device",uuid_device.toString());
+                        bundle.putString("address", deviceAddress);
+
+                        Toast.makeText(BluetoothSearchActivity.this, "Dispositivo pareado com sucesso", Toast.LENGTH_LONG);
                         valid_device = true;
                         //mBluetoothConnection = new BluetoothConnectionService(BluetoothSearchActivity.this);
                         //startBTConnection(mBTDevice, uuid_device);

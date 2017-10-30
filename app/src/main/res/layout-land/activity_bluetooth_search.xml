@@ -6,54 +6,45 @@
     android:layout_height="match_parent"
     tools:context="app.leonardo.controle_amarelinha.BluetoothSearchActivity"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="73dp"
-    >
+    tools:layout_editor_absoluteY="73dp">
+
+    <Button
+        android:id="@+id/bntNext2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="79dp"
+        android:layout_marginEnd="16dp"
+        android:text="Avançar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/listview_bt"
+        app:layout_constraintTop_toBottomOf="@+id/listview_bt" />
 
     <Button
         android:id="@+id/btnDiscover"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
+        android:layout_width="153dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginTop="28dp"
         android:text="Atualizar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/listview_bt"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintLeft_toLeftOf="@+id/listview_bt" />
-
-    <Button
-        android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enviar"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
-        app:layout_constraintRight_toRightOf="@+id/listview_bt"
-        android:layout_marginBottom="20dp" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="276dp"
-        android:layout_height="52dp"
-        android:ems="10"
-        android:inputType="text"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="33dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        tools:layout_constraintLeft_creator="1" />
 
     <ListView
         android:id="@+id/listview_bt"
-        android:layout_width="328dp"
-        android:layout_height="116dp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="52dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="63dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/bntNext2"
+        app:layout_constraintEnd_toStartOf="@+id/btnDiscover"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 </android.support.constraint.ConstraintLayout>
