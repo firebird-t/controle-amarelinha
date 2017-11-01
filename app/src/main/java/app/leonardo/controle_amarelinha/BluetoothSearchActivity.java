@@ -95,15 +95,6 @@ public class BluetoothSearchActivity extends MainActivity{
             registerReceiver(mBroadcastReceiver1, BTIntent);
         }
 
-//        btnSend.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
-//                etSend.setText("");
-//                mBluetoothConnection.write(bytes);
-//            }
-//        });
-
         btnNext.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -130,7 +121,6 @@ public class BluetoothSearchActivity extends MainActivity{
                 Log.d(TAG, "Endereço do dispositivo = " + deviceAddress);
 
                 //create the bond.
-                //NOTE: Requires API 17+? I think this is JellyBean
                 if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
                     Log.d(TAG, "Tentando parear com o dispositivo " + deviceName);
                     mBTDevices.get(position).createBond();
@@ -145,10 +135,8 @@ public class BluetoothSearchActivity extends MainActivity{
                         bundle.putString("device",uuid_device.toString());
                         bundle.putString("address", deviceAddress);
 
-                        Toast.makeText(BluetoothSearchActivity.this, "Dispositivo pareado com sucesso", Toast.LENGTH_LONG);
+                        Toast.makeText(BluetoothSearchActivity.this, "Dispositivo pareado com sucesso", Toast.LENGTH_LONG).show();
                         valid_device = true;
-                        //mBluetoothConnection = new BluetoothConnectionService(BluetoothSearchActivity.this);
-                        //startBTConnection(mBTDevice, uuid_device);
                     }
                 }
             }
@@ -164,21 +152,28 @@ public class BluetoothSearchActivity extends MainActivity{
     @Override
     public void onResume(){
        super.onResume();
-       Log.d("BluetoothSearchActivity","Tela rotacionada");
-//        if (registerReceive1Boolean)
-//            unregisterReceiver(mBroadcastReceiver1);
-//
-//        if (registerReceive2Boolean)
-//            unregisterReceiver(mBroadcastReceiver2);
-//
-//        if (registerReceive3Boolean)
-//            unregisterReceiver(mBroadcastReceiver3);
-//
-//        if (registerReceive4Boolean)
-//            unregisterReceiver(mBroadcastReceiver4);
-
-
     }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy: Activity destruída.");
+        mBTDevices = null;
+        super.onDestroy();
+
+        if (registerReceive1Boolean) {
+            unregisterReceiver(mBroadcastReceiver1);
+        }
+        if (registerReceive2Boolean) {
+            unregisterReceiver(mBroadcastReceiver2);
+        }
+        if (registerReceive3Boolean) {
+            unregisterReceiver(mBroadcastReceiver3);
+        }
+        if (registerReceive4Boolean) {
+            unregisterReceiver(mBroadcastReceiver4);
+        }
+    }
+
 
     private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -316,28 +311,8 @@ public class BluetoothSearchActivity extends MainActivity{
         }
     };
 
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "onDestroy: called.");
-        super.onDestroy();
-
-        if (registerReceive1Boolean) {
-            unregisterReceiver(mBroadcastReceiver1);
-        }
-        if (registerReceive2Boolean) {
-            unregisterReceiver(mBroadcastReceiver2);
-        }
-        if (registerReceive3Boolean) {
-            unregisterReceiver(mBroadcastReceiver3);
-        }
-        if (registerReceive4Boolean) {
-            unregisterReceiver(mBroadcastReceiver4);
-        }
-    }
-
     public void btnDiscover(/*View v*/) {
         Log.d(TAG, "btnDiscover: Looking for unpaired devices.");
-        Toast.makeText(this, "Pesquisando dispositivos não pareados", Toast.LENGTH_SHORT).show();
         if (!enable) {
             if (mBluetoothAdapter.isDiscovering()) {
                 mBluetoothAdapter.cancelDiscovery();
@@ -373,14 +348,6 @@ public class BluetoothSearchActivity extends MainActivity{
         }
     }
 
-    /**
-     * This method is required for all devices running API23+
-     * Android must programmatically check the permissions for bluetooth. Putting the proper permissions
-     * in the manifest is not enough.
-     * <p>
-     * NOTE: This will only execute on versions > LOLLIPOP because it is not needed otherwise.
-     */
-   // @RequiresApi(api = Build.VERSION_CODES.M)
     @TargetApi(Build.VERSION_CODES.M)
     private void checkBTPermissions() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -394,21 +361,4 @@ public class BluetoothSearchActivity extends MainActivity{
             Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
         }
     }
-
-//    //create method for starting connection
-////***remember the conncction will fail and app will crash if you haven't paired first
-//    public void startConnection(){
-//
-//        startBTConnection(mBTDevice, uuid_device);
-//    }
-
-    /**
-     * starting chat service method
-
-    public void startBTConnection(BluetoothDevice device, UUID uuid){
-        Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
-
-        mBluetoothConnection.startClient(device,uuid);
-    }
-     */
 }

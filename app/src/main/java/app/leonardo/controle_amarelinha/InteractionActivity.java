@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,9 +38,13 @@ public class InteractionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interaction);
 
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//
+
         bundle = getIntent().getExtras();
         jsonControl = new JsonControl();
+
         LocalBroadcastManager.getInstance(InteractionActivity.this).registerReceiver(mReceiver, new IntentFilter("SendMessage"));
+
         mBluetoothConnection = new BluetoothConnectionService(InteractionActivity.this);
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mBTDevice = mBluetoothAdapter.getRemoteDevice(bundle.getString("address"));
@@ -95,17 +100,18 @@ public class InteractionActivity extends AppCompatActivity {
                 String tmp = jsonControl.json_prepare();
                 data_send = tmp.getBytes(Charset.defaultCharset());
                 Log.d("Data send", tmp);
+                Log.d("InteractionActivity","Dados enviados");
+                mBluetoothConnection.write(data_send);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            mBluetoothConnection.write(data_send);
-            Log.d("InteractionActivity","Dados enviados");
         }
     };
 
     protected void onDestroy(){
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        mBluetoothConnection.close_conn();
+
     }
 }

@@ -33,14 +33,12 @@ public class BluetoothConnectionService {
 
     private final BluetoothAdapter mBluetoothAdapter;
     Context mContext;
-
     private AcceptThread mInsecureAcceptThread;
-
     private ConnectThread mConnectThread;
     private BluetoothDevice mmDevice;
     private UUID deviceUUID;
     ProgressDialog mProgressDialog;
-    public Boolean conn_status = false;
+    private Boolean conn_status = false;
     private ConnectedThread mConnectedThread;
 
     public BluetoothConnectionService(Context context) {
@@ -259,24 +257,25 @@ public class BluetoothConnectionService {
             String entrada = null;
             int contador = 0;
             while (true) {
-                // Read from the InputStream
-                try {
-                    bytes = mmInStream.read(buffer);
-                    contador++;
-                    if(entrada == null) {
-                        entrada = (new String(buffer, 0, bytes)).trim();
-                    }else {
-                        entrada += (new String(buffer, 0, bytes)).trim();
+                if (mmSocket.isConnected()) {// Read from the InputStream
+                    try {
+                        bytes = mmInStream.read(buffer);
+                        contador++;
+                        if (entrada == null) {
+                            entrada = (new String(buffer, 0, bytes)).trim();
+                        } else {
+                            entrada += (new String(buffer, 0, bytes)).trim();
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage());
+                        break;
                     }
-                } catch (IOException e) {
-                    Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
-                    break;
-                }
 
-                //Log.d("Entrada de dados ", entrada + " Contador:" + contador);
-                if(entrada.contains("|")) {
-                    Log.d("Entrada de dados ", entrada + " Contador:" + contador);
-                    entrada = null;
+                    //Log.d("Entrada de dados ", entrada + " Contador:" + contador);
+                    if (entrada.contains("|")) {
+                        Log.d("Entrada de dados ", entrada + " Contador:" + contador);
+                        entrada = null;
+                    }
                 }
             }
         }
@@ -286,11 +285,15 @@ public class BluetoothConnectionService {
         public void write(byte[] bytes) {
             String text = new String(bytes, Charset.defaultCharset());
             Log.d(TAG, "Saída: " + text);
-            try {
-                mmOutStream.write(bytes);
-            } catch (IOException e) {
-                Log.e(TAG, "write: erro ao escrever para o output stream. " + e.getMessage() );
+
+            if(mmSocket.isConnected()){
+                try {
+                    mmOutStream.write(bytes);
+                } catch (IOException e) {
+                    Log.e(TAG, "write: erro ao escrever para stream de saída. " + e.getMessage() );
+                }
             }
+
         }
 
         /* Call this from the main activity to shutdown the connection */
@@ -311,6 +314,11 @@ public class BluetoothConnectionService {
         conn_status.putExtra("conection",true);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(conn_status);
         Log.d(TAG,"Local Broadcast Called");
+    }
+
+    public void close_conn(){
+        mConnectThread.cancel();
+        mConnectedThread.cancel();
     }
 
     /**
