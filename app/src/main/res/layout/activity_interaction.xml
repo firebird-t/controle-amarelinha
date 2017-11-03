@@ -8,8 +8,8 @@
 
     <ImageButton
         android:id="@+id/imgRockRelease"
-        android:layout_width="0dp"
-        android:layout_height="57dp"
+        android:layout_width="83dp"
+        android:layout_height="62dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imgAgita"
         app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -18,8 +18,8 @@
 
     <ImageButton
         android:id="@+id/imgSimpleButton"
-        android:layout_width="0dp"
-        android:layout_height="57dp"
+        android:layout_width="82dp"
+        android:layout_height="62dp"
         android:layout_marginBottom="32dp"
         android:layout_marginEnd="69dp"
         android:layout_marginTop="43dp"

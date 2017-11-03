@@ -29,21 +29,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity {
 
-    public BluetoothAdapter mBluetoothAdapter;
-    protected float[] linear_acceleration = new float[3];
-    protected boolean lock_;
     String TAG = "Lenovo K6";
     private Button button1;
-    //Bluetooth
-    private Button bt_conect;
-    //Acelerômetro
-    private SensorManager mSensorManager;
-    private Sensor mSensor;
-
-    //Gerenciamento de Conexão
-    //private ConnectivityManager connManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,25 +49,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
         });
-
-        //Conexão Bluetooth
-        //bt_button = (Button) findViewById(R.id.button5);
-//        bt_conect = (Button) findViewById(R.id.bt_conect);
-//        bt_conect.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent busca_dispositivos = new Intent(MainActivity.this, BluetoothSearchActivity.class);
-//                startActivityForResult(busca_dispositivos, 1);
-//            }
-//        });
-//
-        //mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        //lvNewDevices = (ListView)findViewById(R.id.listview_bt);
-
-        //Iniciliazação dos Sensores
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
 
@@ -90,57 +60,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return super.onCreateOptionsMenu(menu);
     }
 
-    //Exemplo da Página de ajuda do Android
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        // In this example, alpha is calculated as t / (t + dT),
-        // where t is the low-pass filter's time-constant and
-        // dT is the event delivery rate.
-        final float alpha = (float) 0.8;
-
-        // Isolate the force of gravity with the low-pass filter.
-        float[] gravity = new float[3];
-
-        gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
-        gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
-        gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
-
-        // Remove the gravity contribution with the high-pass filter.
-        linear_acceleration[0] = event.values[0] - gravity[0];
-        linear_acceleration[1] = event.values[1] - gravity[1];
-        linear_acceleration[2] = event.values[2] - gravity[2];
-
-        float accelationSquareRoot = (linear_acceleration[0] * linear_acceleration[0] +
-                linear_acceleration[1] * linear_acceleration[1] + linear_acceleration[2] *
-                linear_acceleration[2]) / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
-
-
-        //if( lock_ == true){
-        //   testaPosicao();
-        //}
-
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-    }
-
 
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener((SensorEventListener) this,
-                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     protected void onPause() {
         super.onPause();
-        mSensorManager.unregisterListener((SensorEventListener) this);
     }
 
     protected void onDestroy() {
         super.onDestroy();
-        //unregisterReceiver(mBroadcastReceiver);
     }
 
 

@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,7 +26,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,7 +39,16 @@
             android:name=".InteractionActivity"
             android:label="Tipo de Interação" />
         <activity android:name=".ActionActivity" />
-        <activity android:name=".Difficult_Activity" android:label="Funcionamento do Jogo"></activity>
+        <activity
+            android:name=".Difficult_Activity"
+            android:label="Funcionamento do Jogo" />
+        <activity android:name=".ButtonActionActivity" />
+        <activity android:name=".ShakeActivity" />
+        <activity android:name=".RockReleaseActivity"></activity>
+        <service android:name=".BluetoothConnectionService"
+            android:label="BluetoothConnectionService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

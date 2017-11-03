@@ -137,6 +137,7 @@ public class BluetoothSearchActivity extends MainActivity{
 
                         Toast.makeText(BluetoothSearchActivity.this, "Dispositivo pareado com sucesso", Toast.LENGTH_LONG).show();
                         valid_device = true;
+                        startService(this, uuid_device.toString(), deviceAddress);
                     }
                 }
             }
@@ -152,6 +153,18 @@ public class BluetoothSearchActivity extends MainActivity{
     @Override
     public void onResume(){
        super.onResume();
+    }
+
+
+    public void startService(AdapterView.OnItemClickListener view, String uuid, String address){
+        Intent intent = new Intent(this, BluetoothConnectionService.class);
+        intent.putExtra("uuid", uuid);
+        intent.putExtra("address",address);
+        startService(intent);
+    }
+
+    public void stopService(View view, Intent intent){
+        stopService(intent);
     }
 
     @Override
