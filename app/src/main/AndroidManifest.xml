@@ -44,7 +44,9 @@
             android:label="Funcionamento do Jogo" />
         <activity android:name=".ButtonActionActivity" />
         <activity android:name=".ShakeActivity" />
-        <activity android:name=".RockReleaseActivity"></activity>
+        <activity android:name=".RockReleaseActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
         <service android:name=".BluetoothConnectionService"
             android:label="BluetoothConnectionService"
             android:exported="false">

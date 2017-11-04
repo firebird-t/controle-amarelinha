@@ -67,7 +67,11 @@ public class BluetoothConnectionService extends Service{
         LocalBroadcastManager.getInstance(
                 BluetoothConnectionService.this).registerReceiver(
                 mReceiver_writer,new IntentFilter("data_send"));
+
+        //Abre o socket para receber dados do bluetooth
         start();
+
+        //inicia comunicação com o cliente
         startClient(mmDevice, deviceUUID);
 
         it = new Intent("data_receive");
