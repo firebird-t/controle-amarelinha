@@ -1,4 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Controle da Amarelinha</string>
-
+    <string-array name="list_mode">
+        <item>Aleatório</item>
+        <item>Comum</item>
+    </string-array>
 </resources>

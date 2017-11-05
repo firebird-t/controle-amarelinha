@@ -8,6 +8,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class ShakeActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -16,19 +18,27 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     private Sensor mSensor;
     protected float[] linear_acceleration = new float[3];
     protected boolean lock_;
-    private SensorManager senSensorManager;
+    private TextView editText1;
+    private TextView editText2;
+    private TextView editText3;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shake);
 
+        bundle = getIntent().getExtras();
+       editText1 = (TextView)findViewById(R.id.editText3);
+       editText2 = (TextView)findViewById(R.id.editText);
+       editText3 = (TextView)findViewById(R.id.editText4);
+
         //Iniciliazação dos Sensores
+
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        senSensorManager.registerListener(this,mSensor , SensorManager.SENSOR_DELAY_NORMAL);
-
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     //Exemplo da Página de ajuda do Android
@@ -60,6 +70,9 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                     linear_acceleration[2]) / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
 
 
+            editText1.setText(String.valueOf(linear_acceleration[0]));
+            editText2.setText(String.valueOf(linear_acceleration[1]));
+            editText3.setText(String.valueOf(linear_acceleration[2]));
             //if( lock_ == true){
             //   testPosition();
             //}
@@ -80,9 +93,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     @Override
     protected void onResume(){
         super.onResume();
-        mSensorManager.registerListener(this,
-                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
 

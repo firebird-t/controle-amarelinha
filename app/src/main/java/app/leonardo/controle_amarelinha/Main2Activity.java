@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import static android.content.Context.*;
@@ -19,6 +20,7 @@ public class Main2Activity extends AppCompatActivity {
     public Button button2;
     public EditText editText;
     public Bundle bundle;
+    private Spinner spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,8 @@ public class Main2Activity extends AppCompatActivity {
         editText = (EditText)findViewById(R.id.editText2);
         button2 = (Button)findViewById(R.id.button2);
         bundle = getIntent().getExtras();
+        spinner = (Spinner)findViewById(R.id.spinner);
+
        //editText.setText("0");
 
         button2.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +38,7 @@ public class Main2Activity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!editText.getText().toString().isEmpty() && Integer.parseInt(editText.getText().toString()) > 0) {
                     bundle.putString("quant_users", editText.getText().toString());
+                    bundle.putString("game_mode",spinner.getSelectedItem().toString());
                     Intent escolhe_interacao = new Intent(Main2Activity.this, InteractionActivity.class);
                     escolhe_interacao.putExtras(bundle);
                     startActivity(escolhe_interacao);

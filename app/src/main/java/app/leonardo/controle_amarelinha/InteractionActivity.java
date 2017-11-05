@@ -76,24 +76,33 @@ public class InteractionActivity extends AppCompatActivity{
         btnAgita = (ImageButton)findViewById(R.id.imgAgita);
         btnRockRelease = (ImageButton)findViewById(R.id.imgRockRelease);
         btnSimple = (ImageButton)findViewById(R.id.imgSimpleButton);
+
         btnAgita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(InteractionActivity.this,ShakeActivity.class);
+                bundle.putString("jogo_inter", "agita");
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
         btnRockRelease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(InteractionActivity.this,RockReleaseActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
         btnSimple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(InteractionActivity.this,ButtonActionActivity.class);
+                bundle.putString("jogo_inter", "simples");
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

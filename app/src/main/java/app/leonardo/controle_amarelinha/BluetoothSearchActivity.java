@@ -45,7 +45,6 @@ public class BluetoothSearchActivity extends MainActivity{
     //Button btnEnable;
     Button Discover;
     ListView listView;
-    private ProgressDialog progressDialog;
     private Boolean registerReceive1Boolean = false;
     private Boolean registerReceive2Boolean = false;
     private Boolean registerReceive3Boolean = false;
@@ -122,6 +121,9 @@ public class BluetoothSearchActivity extends MainActivity{
 
                 //create the bond.
                 if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
+                    ProgressDialog mProgressDialog = new ProgressDialog(BluetoothSearchActivity.this);
+                    mProgressDialog.setMessage("Conectando ao dispositivo");
+                    mProgressDialog.show();
                     Log.d(TAG, "Tentando parear com o dispositivo " + deviceName);
                     mBTDevices.get(position).createBond();
 
@@ -138,6 +140,7 @@ public class BluetoothSearchActivity extends MainActivity{
                         Toast.makeText(BluetoothSearchActivity.this, "Dispositivo pareado com sucesso", Toast.LENGTH_LONG).show();
                         valid_device = true;
                         startService(this, uuid_device.toString(), deviceAddress);
+                        mProgressDialog.dismiss();
                     }
                 }
             }
