@@ -6,4 +6,16 @@
     android:layout_height="match_parent"
     tools:context="app.leonardo.controle_amarelinha.RockReleaseActivity">
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="236dp"
+        android:layout_height="147dp"
+        android:lineSpacingExtra="8sp"
+        android:paddingTop="20sp"
+        android:text="Deslize o dedo de baixo para cima"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:typeface="normal"
+        tools:layout_editor_absoluteX="74dp"
+        tools:layout_editor_absoluteY="148dp" />
 </android.support.constraint.ConstraintLayout>

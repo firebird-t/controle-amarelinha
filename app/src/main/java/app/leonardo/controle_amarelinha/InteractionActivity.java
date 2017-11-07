@@ -91,6 +91,7 @@ public class InteractionActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InteractionActivity.this,RockReleaseActivity.class);
+                bundle.putString("jogo_inter","rock");
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

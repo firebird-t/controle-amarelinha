@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Controle da Amarelinha</string>
     <string-array name="list_mode">
-        <item>Aleatório</item>
-        <item>Comum</item>
+        <item value="normal">Normal</item>
+        <item value="passo">Passo a Passo</item>
     </string-array>
 </resources>

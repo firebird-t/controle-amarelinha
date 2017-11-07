@@ -22,6 +22,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     private TextView editText2;
     private TextView editText3;
     private Bundle bundle;
+    private long lastUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,12 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
             //if( lock_ == true){
             //   testPosition();
             //}
+            long curTime = System.currentTimeMillis();
 
+            if ((curTime - lastUpdate) > 300) {
+                long diffTime = (curTime - lastUpdate);
+                lastUpdate = curTime;
+            }
         }
 
     }
