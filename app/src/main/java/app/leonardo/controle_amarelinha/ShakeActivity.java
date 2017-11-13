@@ -1,7 +1,9 @@
 package app.leonardo.controle_amarelinha;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -49,6 +51,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
         progress.setTitle("Preparando o celular");
         progress.setMessage("Por favor, mantenha o celular apontado para baixo...");
         progress.setIndeterminate(true);
+        progress.setCancelable(true);
 
         //Textviews
         editText1 = (TextView) findViewById(R.id.editText3);
@@ -65,19 +68,17 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
     private void iniciaJogo() {
         progress.show();
-        Worker w = new Worker(0);
+        Contador w = new Contador();
         w.start();
 
     }
 
 
-    class Worker extends Thread {
+    class Contador extends Thread {
 
         private int test;
 
-        public Worker(int test) {
-            this.test = test;
-        }
+        public Contador() {}
 
         public void run() {
             Boolean exibe_progress = false;
@@ -127,7 +128,6 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
             editText3.setText(String.valueOf(linear_acceleration[2]));
 
             if (first_start) {
-
                 //Testa posição do celular
                 iniciaJogo();
                 first_start = false;
@@ -136,11 +136,14 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
             if (jogada) {
                 //Gravar Posições de tempo para mudança
-                if (linear_acceleration[1] > 0 && linear_acceleration[1] < 4) {
+                if (linear_acceleration[1] > 0 && linear_acceleration[1] < 4.09) {
+                    Log.d("Linear 1", String.valueOf(linear_acceleration[1]));
+                    jogada =  false;
 
                 }
                 if (linear_acceleration[1] >= 4.1 && linear_acceleration[1] < 8) {
-
+                    Log.d("Linear 2", String.valueOf(linear_acceleration[1]));
+                    jogada = false;
                 }
             }
 
@@ -149,6 +152,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
             if ((curTime - lastUpdate) > 300) {
                 long diffTime = (curTime - lastUpdate);
                 lastUpdate = curTime;
+                Log.d("Tempo", String.valueOf(diffTime));
             }
         }
 
@@ -199,4 +203,11 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
         super.onDestroy();
         mSensorManager.unregisterListener(this);
     }
+
+    BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
+    };
 }
