@@ -308,8 +308,8 @@ public class BluetoothConnectionService extends Service{
 
                     //Log.d("Entrada de dados ", entrada + " Contador:" + contador);
 
-                    if (entrada.contains("|")) {
-                        Log.d("Entrada de dados ", entrada + " Contador:" + contador);
+                    if (entrada.contains("}")) {
+                        //Log.d("Entrada de dados ", entrada + " Contador:" + contador);
                         it.putExtra("data_rec",entrada);
                         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(it);
                         entrada = null;

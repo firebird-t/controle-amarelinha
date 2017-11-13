@@ -7,8 +7,12 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.view.View;
 import android.widget.Button;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Random;
 
@@ -32,8 +36,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
         modo_jogo = bundle.getString("game_mode");
         btn_pedra = (Button)findViewById(R.id.bt_pedra);
         btn_pedra.setOnClickListener(this);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter("data_rec"));
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter("data_receive"));
 
     }
 
@@ -51,19 +54,19 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
                 valor = random.nextInt((max - min) + 1) + min;
 
                 if(caminho.equals("ida")){
-                    if(valor != anterior && valor > anterior && valor <= anterior + 3){
+                    if(valor != anterior && valor > anterior && valor <= anterior + 2){
                         anterior = valor;
                         check = true;
                     }
                 }else if(caminho.equals("volta")){
-                    if(valor != anterior && valor < anterior && valor <= anterior - 3){
+                    if(valor != anterior && valor < anterior && valor <= anterior - 2){
                         anterior = valor;
                         check = true;
                     }
                 }
 
             }
-
+            btn_pedra.setEnabled(false);
         }else{
             valor++;
         }
@@ -76,13 +79,30 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
     }
 
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //intent = intent.getExtras();
+            Bundle bundle = intent.getExtras();
+            JSONObject json = null;
+            String cmh = null;
+            String btn_pedra_state = null;
+            try {
+                json = new JSONObject(bundle.getString("data_rec"));
+                cmh = json.getJSONObject("caminho").toString();
+                btn_pedra_state = json.getJSONObject("pedra_ok").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
+            if(!cmh.isEmpty() || cmh != null)
+                caminho = cmh;
+
+            if(!btn_pedra_state.isEmpty() || btn_pedra_state != null){
+                btn_pedra.setEnabled(true);
+            }
         }
     };
 }

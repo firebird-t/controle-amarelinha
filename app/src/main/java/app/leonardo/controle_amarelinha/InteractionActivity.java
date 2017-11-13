@@ -55,8 +55,6 @@ public class InteractionActivity extends AppCompatActivity{
         Log.d("K6", bundle.getString("quant_users"));
 
         try {
-            //jsonControl.add_data("device", bundle.getString("device"));
-            //jsonControl.add_data("address",bundle.getString("address"));
             jsonControl.add_data("jogo","Amarelinha");
             jsonControl.add_data("quant_users",bundle.getString("quant_users"));
             String tmp = jsonControl.json_prepare();
@@ -68,6 +66,7 @@ public class InteractionActivity extends AppCompatActivity{
 
             Log.d("Data send", tmp);
             Log.d("InteractionActivity","Dados enviados");
+
             //mBluetoothConnection.write(data_send);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -109,11 +108,6 @@ public class InteractionActivity extends AppCompatActivity{
 
     }
 
-   /* public void startBTConnection(BluetoothDevice device, UUID uuid){
-        Log.d("Lenovo K6", "startBTConnection: Initializing RFCOM Bluetooth Connection.");
-        mBluetoothConnection.startClient(device,uuid);
-    }
-   */
 
    public void onResume() {
         super.onResume();

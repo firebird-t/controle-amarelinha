@@ -6,10 +6,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ShakeActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -74,9 +76,24 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
             editText1.setText(String.valueOf(linear_acceleration[0]));
             editText2.setText(String.valueOf(linear_acceleration[1]));
             editText3.setText(String.valueOf(linear_acceleration[2]));
-            //if( lock_ == true){
-            //   testPosition();
-            //}
+
+            if(lock_ == true){
+               testPosition();
+            }else{
+                //Gravar Posições de tempo para mudança
+                if(linear_acceleration[1] > 0 && linear_acceleration[1] < 4){
+
+                }
+
+                //
+                if(linear_acceleration[1] > 4 && linear_acceleration[1] < 7){
+
+                }
+
+            }
+
+
+
             long curTime = System.currentTimeMillis();
 
             if ((curTime - lastUpdate) > 300) {
@@ -93,7 +110,13 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
 
     void testPosition(){
-
+        if(linear_acceleration[1] > 0){
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(1000);
+            Toast.makeText(getApplicationContext(),"aponte o celular para baixo",Toast.LENGTH_LONG);
+        }else{
+            lock_ = false;
+        }
     }
 
     @Override
