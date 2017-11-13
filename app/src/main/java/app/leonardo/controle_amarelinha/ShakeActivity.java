@@ -1,5 +1,6 @@
 package app.leonardo.controle_amarelinha;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Loader;
 import android.hardware.Sensor;
@@ -9,13 +10,13 @@ import android.hardware.SensorManager;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ShakeActivity extends AppCompatActivity implements SensorEventListener {
 
-    //Acelerômetro
     private SensorManager mSensorManager;
     private Sensor mSensor;
     protected float[] linear_acceleration = new float[3];
@@ -25,23 +26,71 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     private TextView editText3;
     private Bundle bundle;
     private long lastUpdate;
+    private Boolean toast_bool;
+    private Boolean jogada;
+    private Boolean vibra_bool;
+    Boolean first_start;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shake);
 
+        //Inicialização
         bundle = getIntent().getExtras();
-       editText1 = (TextView)findViewById(R.id.editText3);
-       editText2 = (TextView)findViewById(R.id.editText);
-       editText3 = (TextView)findViewById(R.id.editText4);
+        lock_ = true;
+        toast_bool = false;
+        jogada = false;
+        first_start = true;
+        vibra_bool = false;
 
-        //Iniciliazação dos Sensores
+        progress = new ProgressDialog(this);
+        progress.setTitle("Preparando o celular");
+        progress.setMessage("Por favor, mantenha o celular apontado para baixo...");
+        progress.setIndeterminate(true);
 
+        //Textviews
+        editText1 = (TextView) findViewById(R.id.editText3);
+        editText2 = (TextView) findViewById(R.id.editText);
+        editText3 = (TextView) findViewById(R.id.editText4);
+
+        //Inicilização dos Sensores
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+
+
+    }
+
+    private void iniciaJogo() {
+        progress.show();
+        Worker w = new Worker(0);
+        w.start();
+
+    }
+
+
+    class Worker extends Thread {
+
+        private int test;
+
+        public Worker(int test) {
+            this.test = test;
+        }
+
+        public void run() {
+            Boolean exibe_progress = false;
+
+            while (!jogada) {
+                if (testPosition()) {
+                    close_progress();
+                    Log.d("Thread", "Terminou execução");
+                    jogada = true;
+                    this.interrupt();
+                }
+            }
+        }
     }
 
     //Exemplo da Página de ajuda do Android
@@ -49,7 +98,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     public void onSensorChanged(SensorEvent event) {
 
         Sensor sensor = event.sensor;
-        if(sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+        if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
             // In this example, alpha is calculated as t / (t + dT),
             // where t is the low-pass filter's time-constant and
@@ -77,22 +126,23 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
             editText2.setText(String.valueOf(linear_acceleration[1]));
             editText3.setText(String.valueOf(linear_acceleration[2]));
 
-            if(lock_ == true){
-               testPosition();
-            }else{
-                //Gravar Posições de tempo para mudança
-                if(linear_acceleration[1] > 0 && linear_acceleration[1] < 4){
+            if (first_start) {
 
-                }
-
-                //
-                if(linear_acceleration[1] > 4 && linear_acceleration[1] < 7){
-
-                }
-
+                //Testa posição do celular
+                iniciaJogo();
+                first_start = false;
             }
 
 
+            if (jogada) {
+                //Gravar Posições de tempo para mudança
+                if (linear_acceleration[1] > 0 && linear_acceleration[1] < 4) {
+
+                }
+                if (linear_acceleration[1] >= 4.1 && linear_acceleration[1] < 8) {
+
+                }
+            }
 
             long curTime = System.currentTimeMillis();
 
@@ -109,29 +159,43 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     }
 
 
-    void testPosition(){
-        if(linear_acceleration[1] > 0){
-            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            v.vibrate(1000);
-            Toast.makeText(getApplicationContext(),"aponte o celular para baixo",Toast.LENGTH_LONG);
-        }else{
-            lock_ = false;
+    private boolean testPosition() {
+        Boolean test_pos = false;
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        if (linear_acceleration[1] > 0) {
+            if (!vibra_bool) {
+                v.vibrate(1000);
+                vibra_bool = true;
+            }
+            return false;
+        } else {
+            v.vibrate(200);
+            //lock_ = false;
+            //progress.dismiss();
+            //v.vibrate(200);
+            return true;
         }
+
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    private void close_progress() {
+        progress.dismiss();
+    }
 
-    protected void onPause(){
+
+    protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(this);
     }
 
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         mSensorManager.unregisterListener(this);
     }
