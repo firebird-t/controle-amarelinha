@@ -14,6 +14,7 @@ import android.widget.Button;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.Charset;
 import java.util.Random;
 
 public class ButtonActionActivity extends AppCompatActivity implements View.OnClickListener{
@@ -45,7 +46,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         int valor = 0;
 
-        if(modo_jogo.equals("normal")){
+        if(modo_jogo.equals("Normal")){
             Boolean check = false;
             while(!check){
                 Random random = new Random();
@@ -71,8 +72,20 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
             valor++;
         }
 
+        JsonControl jsonControl = new JsonControl();
+
+        try {
+            jsonControl.add_data("valor_botao", String.valueOf(valor));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String tmp = jsonControl.json_prepare();
+        byte[] data_send = tmp.getBytes(Charset.defaultCharset());
+
         Intent intent = new Intent("data_send");
-        intent.putExtra("valor_botao",valor);
+        intent.putExtra("data_to_send",data_send);
+
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
@@ -87,9 +100,11 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             JSONObject json = null;
+            String tmp = null;
             String cmh = null;
             String btn_pedra_state = null;
             try {
+                tmp = bundle.getString("data_rec");
                 json = new JSONObject(bundle.getString("data_rec"));
                 cmh = json.getJSONObject("caminho").toString();
                 btn_pedra_state = json.getJSONObject("pedra_ok").toString();
@@ -97,11 +112,16 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
             }
 
-            if(!cmh.isEmpty() || cmh != null)
-                caminho = cmh;
+            if(cmh != null){
+                if(!cmh.isEmpty()){
+                    caminho = cmh;
+                }
+            }
 
-            if(!btn_pedra_state.isEmpty() || btn_pedra_state != null){
-                btn_pedra.setEnabled(true);
+
+            if(btn_pedra_state != null){
+               if(!btn_pedra_state.isEmpty())
+                   btn_pedra.setEnabled(true);
             }
         }
     };
