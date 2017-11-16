@@ -306,7 +306,7 @@ public class BluetoothConnectionService extends Service{
                         break;
                     }
 
-                    //Log.d("Entrada de dados ", entrada + " Contador:" + contador);
+                    Log.d("Entrada de dados ", entrada + " Contador:" + contador);
 
                     if (entrada.contains("}")) {
                         //Log.d("Entrada de dados ", entrada + " Contador:" + contador);

@@ -106,8 +106,8 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
             try {
                 tmp = bundle.getString("data_rec");
                 json = new JSONObject(bundle.getString("data_rec"));
-                cmh = json.getJSONObject("caminho").toString();
-                btn_pedra_state = json.getJSONObject("pedra_ok").toString();
+                cmh = json.getString("caminho");
+                btn_pedra_state = json.getString("pedra_ok").toString();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -120,7 +120,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
 
 
             if(btn_pedra_state != null){
-               if(!btn_pedra_state.isEmpty())
+               if(!btn_pedra_state.isEmpty() && btn_pedra_state.equalsIgnoreCase("ok"))
                    btn_pedra.setEnabled(true);
             }
         }
