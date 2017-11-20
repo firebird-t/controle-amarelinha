@@ -41,8 +41,6 @@ public class BluetoothSearchActivity extends MainActivity{
     BluetoothConnectionService mBluetoothConnection;
     BluetoothAdapter mBluetoothAdapter;
     BluetoothDevice mBTDevice;
-    //Button btnEnableDisable_Discoverable;
-    //Button btnEnable;
     Button Discover;
     ListView listView;
     private Boolean registerReceive1Boolean = false;
@@ -51,7 +49,6 @@ public class BluetoothSearchActivity extends MainActivity{
     private Boolean registerReceive4Boolean = false;
     private Boolean enable = false;
     private Boolean valid_device = false;
-    //private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
     private UUID uuid_device;
     //Button btnStartConnection;
     Button btnNext;
@@ -111,6 +108,11 @@ public class BluetoothSearchActivity extends MainActivity{
             //@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mBluetoothAdapter.cancelDiscovery();
+                ProgressDialog mProgressDialog = new ProgressDialog(BluetoothSearchActivity.this);
+                mProgressDialog.setTitle("Preparando o celular");
+                mProgressDialog.setIndeterminate(true);
+                mProgressDialog.setMessage("Conectando ao dispositivo");
+                mProgressDialog.show();
 
                 Log.d(TAG, "Item Selecionado.");
                 String deviceName = mBTDevices.get(position).getName();
@@ -121,9 +123,7 @@ public class BluetoothSearchActivity extends MainActivity{
 
                 //create the bond.
                 if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
-                    ProgressDialog mProgressDialog = new ProgressDialog(BluetoothSearchActivity.this);
-                    mProgressDialog.setMessage("Conectando ao dispositivo");
-                    mProgressDialog.show();
+
                     Log.d(TAG, "Tentando parear com o dispositivo " + deviceName);
                     mBTDevices.get(position).createBond();
 
