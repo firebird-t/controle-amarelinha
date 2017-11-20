@@ -1,5 +1,6 @@
 package app.leonardo.controle_amarelinha;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -32,7 +33,9 @@ public class InteractionActivity extends AppCompatActivity{
     public JsonControl jsonControl;
     byte[] data_send;
     Bundle bundle;
+    private int quant_users;
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,21 +45,15 @@ public class InteractionActivity extends AppCompatActivity{
 
         bundle = getIntent().getExtras();
         jsonControl = new JsonControl();
-
-        //LocalBroadcastManager.getInstance(InteractionActivity.this).registerReceiver(mReceiver, new IntentFilter("SendMessage"));
-
-        //mBluetoothConnection = new BluetoothConnectionService(InteractionActivity.this);
-        //mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        //mBTDevice = mBluetoothAdapter.getRemoteDevice(bundle.getString("address"));
-        //startBTConnection(mBTDevice, UUID.fromString(bundle.getString("device")));
+        quant_users = Integer.parseInt(bundle.getString("quant_users"));
 
         Log.d("k6","DEVICE UUID: " + bundle.getString("device"));
         Log.d("k6", "Device Address: " + bundle.getString("address"));
-        Log.d("K6", bundle.getString("quant_users"));
+        Log.d("Quantidade_de_Usuários", String.valueOf(quant_users));
 
         try {
             jsonControl.add_data("jogo","Amarelinha");
-            jsonControl.add_data("quant_users",bundle.getString("quant_users"));
+            jsonControl.add_data("quant_users", String.valueOf(quant_users));
             String tmp = jsonControl.json_prepare();
             data_send = tmp.getBytes(Charset.defaultCharset());
 
@@ -81,6 +78,7 @@ public class InteractionActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(InteractionActivity.this,ShakeActivity.class);
                 bundle.putString("jogo_inter", "agita");
+                bundle.putString("quant_users", String.valueOf(quant_users));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -91,6 +89,7 @@ public class InteractionActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(InteractionActivity.this,RockReleaseActivity.class);
                 bundle.putString("jogo_inter","rock");
+                bundle.putString("quant_users", String.valueOf(quant_users));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -101,6 +100,7 @@ public class InteractionActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(InteractionActivity.this,ButtonActionActivity.class);
                 bundle.putString("jogo_inter", "simples");
+                bundle.putString("quant_users", String.valueOf(quant_users));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

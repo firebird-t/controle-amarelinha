@@ -4,15 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.leonardo.controle_amarelinha.ButtonActionActivity">
+    tools:context="app.leonardo.controle_amarelinha.ButtonActionActivity"
+    tools:layout_editor_absoluteY="81dp">
 
     <Button
         android:id="@+id/bt_pedra"
-        android:layout_width="190dp"
-        android:layout_height="54dp"
-        android:layout_marginBottom="201dp"
+        android:layout_width="210dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="120dp"
+        android:layout_marginEnd="73dp"
         android:text="Jogar Pedra"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="213dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="160dp"
+        android:layout_marginTop="112dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/bt_pedra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

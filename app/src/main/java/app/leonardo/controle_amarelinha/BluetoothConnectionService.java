@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.text.Normalizer;
 import java.util.UUID;
 
 
@@ -297,10 +298,13 @@ public class BluetoothConnectionService extends Service{
                         bytes = mmInStream.read(buffer);
                         contador++;
                         if (entrada == null) {
-                            entrada = (new String(buffer, 0, bytes)).trim();
+                            entrada = (new String(buffer, 0, bytes, Charset.defaultCharset())).trim();
                         } else {
-                            entrada += (new String(buffer, 0, bytes)).trim();
+                            entrada += (new String(buffer, 0, bytes, Charset.defaultCharset())).trim();
                         }
+
+                       // entrada = entrada.replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}\\{}]", "");//entrada = entrada.replaceAll("\\p{Cntrl}", "");
+                        entrada = entrada.replaceAll("[\\uD83D\\uFFFD\\uFE0F\\u203C\\u3010\\u3011\\u300A\\u166D\\u200C\\u202A\\u202C\\u2049\\u20E3\\u300B\\u300C\\u3030\\u065F\\u0099\\u0F3A\\u0F3B\\uF610\\uFFFC]", "");
                     } catch (IOException e) {
                         Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage());
                         break;
@@ -310,6 +314,8 @@ public class BluetoothConnectionService extends Service{
 
                     if (entrada.contains("}")) {
                         //Log.d("Entrada de dados ", entrada + " Contador:" + contador);
+                        //entrada = Normalizer.normalize(entrada, Normalizer.Form.NFC);
+                        entrada.replaceAll("[?]","");
                         it.putExtra("data_rec",entrada);
                         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(it);
                         entrada = null;

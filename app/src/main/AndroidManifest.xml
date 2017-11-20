@@ -38,18 +38,25 @@
         <activity
             android:name=".InteractionActivity"
             android:label="Tipo de Interação" />
-        <activity android:name=".ButtonActionActivity" android:label="Clique no botão"/>
-        <activity android:name=".ShakeActivity" android:label="Agitar o Celular" />
+        <activity
+            android:name=".ButtonActionActivity"
+            android:label="Clique no botão" />
+        <activity
+            android:name=".ShakeActivity"
+            android:label="Agitar o Celular" />
         <activity
             android:name=".RockReleaseActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:label="Lançar pedra"></activity>
+            android:label="Lançar pedra"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".BluetoothConnectionService"
             android:exported="false"
-            android:label="BluetoothConnectionService"></service>
+            android:label="BluetoothConnectionService" />
+
+        <activity android:name=".Minesweeper" />
+        <activity android:name=".HypnoActivity"></activity>
     </application>
 
 </manifest>
