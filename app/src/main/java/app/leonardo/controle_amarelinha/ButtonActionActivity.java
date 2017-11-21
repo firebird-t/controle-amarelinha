@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_button_action);
 
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Fixa em modo Retrato
         //Inicialização
         anterior = 0;
         caminho = "ida";
@@ -65,7 +67,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
             Boolean check = false;
             while(!check){
                 Random random = new Random();
-                int max = 10;
+                int max = 7;
                 int min = 1;
                 valor = random.nextInt((max - min) + 1) + min;
 
@@ -74,7 +76,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
                         anterior = valor;
                         check = true;
                         int_valor_jogada = valor;
-                        if(valor >= 10){
+                        if(valor >= max){
                             caminho = "volta";
                         }
                     }

@@ -94,13 +94,7 @@ public class BluetoothSearchActivity extends MainActivity{
         btnNext.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(valid_device) {
-                    Intent quant_jogadores = new Intent(BluetoothSearchActivity.this,Main2Activity.class);
-                    quant_jogadores.putExtras(bundle);
-                    startActivity(quant_jogadores);
-                }else {
-                    Toast.makeText(BluetoothSearchActivity.this,"Um dispositivo deve ser selecionado", Toast.LENGTH_LONG).show();
-                }
+
             }
         });
 
@@ -141,6 +135,13 @@ public class BluetoothSearchActivity extends MainActivity{
                         valid_device = true;
                         startService(this, uuid_device.toString(), deviceAddress);
                         mProgressDialog.dismiss();
+                        if(valid_device) {
+                            Intent quant_jogadores = new Intent(BluetoothSearchActivity.this,Main2Activity.class);
+                            quant_jogadores.putExtras(bundle);
+                            startActivity(quant_jogadores);
+                        }else {
+                            Toast.makeText(BluetoothSearchActivity.this,"Um dispositivo deve ser selecionado", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
             }
