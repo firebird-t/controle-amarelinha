@@ -16,6 +16,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +28,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.nio.charset.Charset;
@@ -43,7 +47,7 @@ public class BluetoothSearchActivity extends MainActivity{
     BluetoothConnectionService mBluetoothConnection;
     BluetoothAdapter mBluetoothAdapter;
     BluetoothDevice mBTDevice;
-    Button Discover;
+    ImageButton Discover;
     ListView listView;
     private Boolean registerReceive1Boolean = false;
     private Boolean registerReceive2Boolean = false;
@@ -61,17 +65,21 @@ public class BluetoothSearchActivity extends MainActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_bluetooth_search);
 
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Fixa em modo Retrato
         listView = (ListView)findViewById(R.id.listview_bt);
-        Discover = (Button)findViewById(R.id.btnDiscover);
+        Discover = (ImageButton)findViewById(R.id.btnDiscover);
         //btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
         //btnSend = (Button) findViewById(R.id.btnSend);
         btnNext = (Button)findViewById(R.id.bntNext);
         //etSend = (EditText) findViewById(R.id.editText);
+
+        TextView textView = (TextView)findViewById(R.id.textView16);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
+        textView.setTypeface(typeface);
 
         bundle = new Bundle();
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
@@ -141,7 +149,7 @@ public class BluetoothSearchActivity extends MainActivity{
                         startService(this, uuid_device.toString(), deviceAddress);
                         mProgressDialog.dismiss();
                         if(valid_device) {
-                            Intent quant_jogadores = new Intent(BluetoothSearchActivity.this,Main2Activity.class);
+                            Intent quant_jogadores = new Intent(BluetoothSearchActivity.this,GameChoose.class);
                             quant_jogadores.putExtras(bundle);
                             startActivity(quant_jogadores);
                         }else {

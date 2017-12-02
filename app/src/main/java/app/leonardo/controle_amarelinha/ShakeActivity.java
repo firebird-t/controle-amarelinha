@@ -68,7 +68,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
         jogada = false;
         first_start = true;
         vibra_bool = false;
-        resp_arduino = null;
+        resp_arduino = "ok";
 
         progress = new ProgressDialog(this);
         progress.setTitle("Preparando o celular");
@@ -108,7 +108,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
 
     class Progress extends Thread {
-
+        Boolean check = false;
         public Progress() {}
 
         public void run() {
@@ -126,6 +126,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
     class Sorteio extends Thread{
        private Context context;
+       Boolean check = false;
 
         public Sorteio(Context context){
             this.context = context;
@@ -138,7 +139,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                 Boolean check = false;
                 while (!check) {
                     Random random = new Random();
-                    int max = 10;
+                    int max = 7;
                     int min = 1;
                     valor = random.nextInt((max - min) + 1) + min;
 
@@ -147,7 +148,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                             anterior = valor;
                             check = true;
                             int_valor_jogada = valor;
-                            if (valor >= 10) {
+                            if (valor >= max) {
                                 caminho = "volta";
                             }
                         }
@@ -177,17 +178,14 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
             Intent intent = new Intent("data_send");
             intent.putExtra("data_to_send", data_send);
             LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-            Progress p = new Progress();
-            progress.setMessage("Mantenha o telefone apontado para baixo...");
-            showProgress();
-            p.start();
+            //runOnUiThread(p);
             this.interrupt();
         }
     }
 
     class Resposta extends Thread{
         public Resposta(){}
-
+        Boolean check = false;
         public void run(){
             Boolean answer = false;
             while(!answer){
@@ -241,7 +239,11 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                     Log.d("Linear 2", String.valueOf(linear_acceleration[1]));
                     Sorteio sorteio = new Sorteio(ShakeActivity.this );
                     sorteio.start();
+                    Resposta r = new Resposta();
+                    r.start();
+                    resp_arduino = "";
                     jogada = false;
+                    showProgress();
                 }
             }
 
@@ -316,6 +318,12 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                 if(!btn_pedra_state.isEmpty() && btn_pedra_state.equalsIgnoreCase("ok")) {
                     resp_arduino = "ok";
                     Log.d("Caminho",caminho);
+                    close_progress();
+
+                    Progress p = new Progress();
+                    progress.setMessage("Mantenha o telefone apontado para baixo...");
+                    p.start();
+                    showProgress();
 
                     if(caminho == "volta" && int_valor_jogada <= 1){
                         caminho = "ida";
@@ -328,6 +336,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                         control_users = 1;
                         textView.setText("Jogador: " + control_users);
                     }
+
                 }
             }
         }

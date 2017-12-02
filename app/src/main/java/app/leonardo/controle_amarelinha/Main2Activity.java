@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.content.Context.*;
@@ -26,15 +29,17 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main2);
 
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Fixa em modo Retrato
         editText = (EditText)findViewById(R.id.editText2);
         button2 = (Button)findViewById(R.id.button2);
         bundle = getIntent().getExtras();
         spinner = (Spinner)findViewById(R.id.spinner);
+
+        TextView textView = (TextView)findViewById(R.id.textView);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
+        textView.setTypeface(typeface);
 
        //editText.setText("0");
 

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,8 +18,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.nio.charset.Charset;
 import java.util.UUID;
@@ -41,9 +44,6 @@ public class InteractionActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_interaction);
 
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Fixa em modo Retrato
@@ -52,12 +52,17 @@ public class InteractionActivity extends AppCompatActivity{
         jsonControl = new JsonControl();
         quant_users = Integer.parseInt(bundle.getString("quant_users"));
 
+        TextView textView = (TextView)findViewById(R.id.textView14);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
+        textView.setTypeface(typeface);
+
+
         Log.d("k6","DEVICE UUID: " + bundle.getString("device"));
         Log.d("k6", "Device Address: " + bundle.getString("address"));
         Log.d("Quantidade_de_Usuários", String.valueOf(quant_users));
 
         try {
-            jsonControl.add_data("jogo","Amarelinha");
+            jsonControl.add_data("jogo","1");
             jsonControl.add_data("quant_users", String.valueOf(quant_users));
             String tmp = jsonControl.json_prepare();
             data_send = tmp.getBytes(Charset.defaultCharset());

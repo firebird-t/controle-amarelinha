@@ -5,4 +5,10 @@
         <item value="normal">Normal</item>
         <item value="passo">Passo a Passo</item>
     </string-array>
+
+    <string-array name="df_mode">
+        <item value="facil" id="1">Fácil</item>
+        <item value="medio" id="2">Médio</item>
+        <item value="dificil" id="3">Difícil</item>
+    </string-array>
 </resources>

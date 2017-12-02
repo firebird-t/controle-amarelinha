@@ -9,11 +9,12 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="173dp"
-        android:layout_height="62dp"
+        android:layout_width="213dp"
+        android:layout_height="89dp"
         android:layout_marginBottom="136dp"
-        android:background="@color/ButtonStart"
-        android:text="Iniciar"
+        android:background="@drawable/botao_iniciar"
+        android:contextClickable="true"
+        android:elevation="5sp"
         android:textColor="@color/WhiteLetter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -26,14 +27,14 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="223dp"
-        android:layout_height="0dp"
+        android:layout_width="292dp"
+        android:layout_height="197dp"
         android:layout_marginBottom="109dp"
         android:layout_marginTop="62dp"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_action_name" />
+        app:srcCompat="@drawable/logo" />
 
 </android.support.constraint.ConstraintLayout>
