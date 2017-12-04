@@ -75,6 +75,7 @@ long total6;
 long total7;
 long total8;
 String velocidade;
+int tecla_vez = 0;
 //A resposta para tudo
 int tecla_ativa = 42;
 
@@ -636,7 +637,11 @@ void amarelinha(){
          tecla_controle1 = true;
       }else{
          tecla1 = true;
-         liga(1,random(255),random(255),random(255));
+         if(tecla_vez == 1){
+            liga(1,0,0,255);
+         }else{
+            liga(1,random(255),random(255),random(255));
+         }         
       }
       reset();
       digitalWrite(13, HIGH);
@@ -653,7 +658,11 @@ void amarelinha(){
          tecla_controle3 = true;
       }else{
          tecla3 = true;
-         liga(3,random(255),random(255),random(255));
+          if(tecla_vez == 3){
+            liga(3,0,0,255);
+         }else{
+            liga(3,random(255),random(255),random(255));
+         } 
       }  
       reset();
       digitalWrite(13, HIGH);
@@ -670,7 +679,11 @@ void amarelinha(){
          tecla_controle2 = true;
       }else{
         tecla2 = true;
-         liga(2,random(255),random(255),random(255));
+        if(tecla_vez == 2){
+            liga(2,0,0,255);
+         }else{
+            liga(2,random(255),random(255),random(255));
+         } 
       }
       reset();
       digitalWrite(13, HIGH);
@@ -687,7 +700,11 @@ void amarelinha(){
          liga(4,255,0,0); 
       }else{
         tecla4 = true;
-         liga(4,random(255),random(255),random(255));
+        if(tecla_vez == 4){
+            liga(4,0,0,255);
+         }else{
+            liga(4,random(255),random(255),random(255));
+         }
       }
       reset();
       digitalWrite(13, HIGH);
@@ -705,7 +722,11 @@ void amarelinha(){
          tecla_controle6 = true;
       }else{
          tecla6 = true; 
-         liga(6,random(255),random(255),random(255));
+        if(tecla_vez == 6){
+            liga(6,0,0,255);
+         }else{
+            liga(6,random(255),random(255),random(255));
+         }
       }
       reset();
       digitalWrite(13, HIGH);
@@ -722,7 +743,11 @@ void amarelinha(){
          tecla_controle5 = true;
       }else{
          tecla5 = true;
-         liga(5,random(255),random(255),random(255));
+         if(tecla_vez == 5){
+            liga(5,0,0,255);
+         }else{
+            liga(5,random(255),random(255),random(255));
+         }
       }
       reset();
       digitalWrite(13, HIGH);
@@ -741,6 +766,7 @@ void amarelinha(){
       }else{
          tecla7 = true;
          if(checa_ordem()){
+            tecla_vez++;
             ida = false;
             volta = true;
             Serial.println("Ida Completa");
@@ -903,6 +929,7 @@ bool checa_ordem(){
           Serial.println("7 ok");
           positions[i] = "ok";
           i++;
+          false_all();
           return true;
         }else{
           Serial.println("7 falha");

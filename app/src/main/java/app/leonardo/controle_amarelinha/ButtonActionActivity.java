@@ -90,6 +90,13 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
             }else{
                 valor = anterior;
                 valor--;
+                if(anterior == 3 && valor == 2){
+                    valor--;
+                }
+
+                if(anterior == 6 && valor == 5){
+                    valor--;
+                }
                 anterior = valor;
             }
 
@@ -159,11 +166,14 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
             //String tmp = null;
             //String cmh = null;
             String btn_pedra_state = null;
+            String next_user = null;
+
             try {
                 //tmp = bundle.getString("data_rec");
                 json = new JSONObject(bundle.getString("data_rec"));
                 //cmh = json.getString("caminho");
                 btn_pedra_state = json.getString("pedra_ok").toString();
+                next_user = json.getString("status").toString();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -183,10 +193,13 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
                     Log.d("Caminho",caminho);
                    if(caminho == "volta" && int_valor_jogada <= 1){
                         caminho = "ida";
-                        control_users++;
                         textView.setText("Jogador: " + control_users);
                    }
 
+
+                   if(next_user.equalsIgnoreCase("ok")){
+                       control_users++;
+                   }
 
                    if(control_users > quant_users){
                        control_users = 1;
