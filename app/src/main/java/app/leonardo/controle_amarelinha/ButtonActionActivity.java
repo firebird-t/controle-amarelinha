@@ -72,26 +72,50 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         int valor = 0;
-
+        int max = 7;
+        int min = 2;
         if(modo_jogo.equals("Normal")){
+            if(caminho == "ida"){
+                valor = anterior;
+                valor++;
+
+                if(anterior == 2 && valor == 3){
+                    valor++;
+                }
+
+                if(anterior == 5 && valor == 6){
+                    valor++;
+                }
+                anterior = valor;
+            }else{
+                valor = anterior;
+                valor--;
+                anterior = valor;
+            }
+
+            if(anterior >= max){
+                caminho = "volta";
+            }
+
+
+
+        }else{
             Boolean check = false;
-            while(!check){
+            while(!check) {
                 Random random = new Random();
-                int max = 7;
-                int min = 1;
                 valor = random.nextInt((max - min) + 1) + min;
 
-                if(caminho.equals("ida")){
-                    if(valor != anterior && valor > anterior && valor <= anterior + 3){
+                if (caminho.equals("ida")) {
+                    if (valor != anterior && valor > anterior && valor <= anterior + 3) {
                         anterior = valor;
                         check = true;
                         int_valor_jogada = valor;
-                        if(valor >= max){
+                        if (valor >= max) {
                             caminho = "volta";
                         }
                     }
-                }else if(caminho.equals("volta")){
-                    if(valor != anterior && valor < anterior && valor > anterior - 3){
+                } else if (caminho.equals("volta")) {
+                    if (valor != anterior && valor < anterior && valor > anterior - 3) {
                         anterior = valor;
                         int_valor_jogada = valor;
                         check = true;
@@ -99,11 +123,9 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
                 }
 
             }
-            btn_pedra.setEnabled(false);
-        }else{
-            valor++;
         }
 
+        btn_pedra.setEnabled(false);
         JsonControl jsonControl = new JsonControl();
 
         try {

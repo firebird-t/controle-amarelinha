@@ -3,7 +3,7 @@
     <string name="app_name">Controle da Amarelinha</string>
     <string-array name="list_mode">
         <item value="normal">Normal</item>
-        <item value="passo">Passo a Passo</item>
+        <item value="passo">Diferenciado</item>
     </string-array>
 
     <string-array name="df_mode">
