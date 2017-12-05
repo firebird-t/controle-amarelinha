@@ -39,6 +39,9 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
     private int valor_jogadas[];
     private int int_valor_jogada;
     private Boolean state_player[];
+    int num1;
+    int num2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,10 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
         bundle = getIntent().getExtras();
         modo_jogo = bundle.getString("game_mode");
         quant_users = Integer.parseInt(bundle.getString("quant_users"));
+
+        num1 = Integer.parseInt(bundle.getString("num1"));
+        num2 = Integer.parseInt(bundle.getString("num2"));
+
         textView = (TextView)findViewById(R.id.textView7);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
         textView.setTypeface(typeface);
@@ -89,11 +96,18 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
                 if(anterior == 5 && valor == 6){
                     valor++;
                 }
+
+                if(valor == num1 || valor == num2){
+                    valor++;
+                }
+
                 anterior = valor;
                 int_valor_jogada = valor;
 
         }else{
             Boolean check = false;
+            max = 1;
+            min = 7;
             while(!check) {
                 Random random = new Random();
                 valor = random.nextInt((max - min) + 1) + min;
@@ -192,8 +206,6 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
                            caminho = "ida";
                            textView.setText("Jogador: " + control_users);
                        }
-
-
 
                    }
                }

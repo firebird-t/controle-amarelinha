@@ -77,6 +77,12 @@ long total7;
 long total8;
 String velocidade;
 int tecla_vez = 0;
+int num1_tmp, num2_tmp;
+int controle_chances;
+int sky = 7;
+bool next_user = false;
+int active_game;
+
 //A resposta para tudo
 int tecla_ativa = 42;
 String amarelinha_modo;
@@ -274,21 +280,32 @@ void json_inpt(String input) {
   String encerra = root["fim"];
   String num1 = root["num1"];
   String num2 = root["num2"];
-  int num1_tmp = num1.toInt();
-  int num2_tmp = num2.toInt();
   reset();
-
+  
+  //Variáveis que recebem os valores para que teclas devem ser apagadas
+  //São variáveis globais
+  num1_tmp = num1.toInt();
+  num2_tmp = num2.toInt();
 
   if (game_init) {
     String tmp = input.substring(16, 17);
-    
-    Serial.println(tmp);
+    Serial.println("tecla a acender" + tmp);
     int inter_ = tmp.toInt();
     Serial.println("Enviando confirmação...");
     touch = true;
     valor_botao_ = inter_;
     liga(inter_, random(255), random(255), random(255));
     reset();
+    
+    if(next_user){
+      if(active_game == 1){
+         sorteio(1,modo);
+      }
+      else if(active_game == 2){
+        sorteio(1, modo);
+      }
+
+      next_user = false;
   }
 
   reset();
@@ -296,10 +313,15 @@ void json_inpt(String input) {
     String jogo = root["jogo"];
     //Amarelinha
     if (jogo == "1") {
-      Serial.println("1");
+      Serial.println("Iniciando a amarelinha");
       reset();
+
+      //Variáveis que informar o jogo e seu status
+      active_game = 1;
+      game = 1;
       amarelinha_modo = modo;
-      inicia_jogo(1, modo);
+      sorteio(1, modo);
+      choose = true;
 
     }
 
@@ -307,29 +329,37 @@ void json_inpt(String input) {
     if (jogo == "2") {
       Serial.println("2");
       reset();
+      active_game = 2;
+      game = 2;
       Serial.println("Iniciando o jogo do campo minado");
-      inicia_jogo(2, modo);
+      (2, modo);
+      choose = true;
     }
 
     if (jogo == "3") {
       Serial.println("3");
+      game = 3;
       reset();
-      inicia_jogo(3, modo);
+      sorteio(3, modo);
+      choose = true;
     }
 
     reset();
-    int quant_users = root["quant_users"];
-    Serial.println("Jogo Iniciado");
-    reset();
-    choose = true;
-    game_init = true;
-    reset();
+    //int quant_users = root["quant_users"];
+    if (choose == true) {
+      Serial.println("Jogo Iniciado");
+      reset();
+      game_init = true;
+      reset();
+    }
 
     if (encerra == "fim") {
       game = 0;
       game_init = false;
       choose = false;
       false_all();
+      //desliga_tudo();
+      //false_tecla_escolha();
     }
 
   }
@@ -337,22 +367,6 @@ void json_inpt(String input) {
   reset();
 }
 
-void inicia_jogo(int escolha, String modo) {
-
-  if (escolha == 1) {
-    game = 1;
-    sorteio(1, modo);
-  }
-  else if (escolha == 2) {
-    game = 2;
-    sorteio(2, modo);
-  }
-  else if (escolha == 3) {
-    game = 3;
-    sorteio(3, modo);
-  }
-
-}
 
 void sorteio(int jogo, String modo) {
 
@@ -363,29 +377,32 @@ void sorteio(int jogo, String modo) {
     bool check = false;
     int temp = 0;
 
-//    while (contador < piece) {
-//      temp = random(2, 6);
-//      for (int i = 0; i < piece; i++) {
-//        check = false;
-//        if (temp == fields[i]) {
-//          desliga(fields[i]);
-//          check = true;
-//          break;
-//        }
-//      }
-//
-//      if (!check) {
-//        Serial.println("Jogo 1 + nÃºmero escolhido");
-//        Serial.println(temp);
-//        fields[contador] = temp;
-//        true_tecla(fields[contador]);
-//        contador++;
-//      }
-//    }
+    //    while (contador < piece) {
+    //      temp = random(2, 6);
+    //      for (int i = 0; i < piece; i++) {
+    //        check = false;
+    //        if (temp == fields[i]) {
+    //          desliga(fields[i]);
+    //          check = true;
+    //          break;
+    //        }
+    //      }
+    //
+    //      if (!check) {
+    //        Serial.println("Jogo 1 + número escolhido");
+    //        Serial.println(temp);
+    //        fields[contador] = temp;
+    //        true_tecla(fields[contador]);
+    //        contador++;
+    //      }
+    //    }
 
+    Serial.println("Number1 " + num1_tmp);
     true_tecla(num1_tmp);
+    Serial.println("Number2 " + num2_tmp);
     true_tecla(num2_tmp);
 
+    //Faz a checagem de quais teclas foram desligadas e liga as restantes
     if (!tecla_escolha1) {
       //tecla1 = true;
       liga(1, 0, 0, 255);
@@ -467,7 +484,7 @@ void sorteio(int jogo, String modo) {
         if (!check) {
           Serial.println("número escolhido 2");
           Serial.println(temp);
-          liga(temp, random(0, 255), random(0, 255), random(0, 255));
+          //liga(temp, random(0, 255), random(0, 255), random(0, 255));
           fields[contador] = temp;
           contador++;
         }
@@ -506,33 +523,25 @@ void false_all() {
   tecla8 = false;
 }
 
-bool check_false_all() {
-  if (tecla1) {
-    return false;
-  }
-  if (tecla2) {
-    return false;
-  }
-  if (tecla3) {
-    return false;
-  }
-  if (tecla4) {
-    return false;
-  }
-  if (tecla5) {
-    return false;
-  }
-  if (tecla6) {
-    return false;
-  }
-  if (tecla7) {
-    return false;
-  }
-  if (tecla8) {
-    return false;
-  }
+void false_tecla_escolha() {
 
-  return true;
+  reset();
+  tecla_escolha1 = false;
+  tecla_escolha2 = false;
+
+  tecla_escolha3 = false;
+
+  tecla_escolha4 = false;
+
+  tecla_escolha5 = false;
+
+  tecla_escolha6 = false;
+
+  tecla_escolha7 = false;
+
+  tecla_escolha8 = false;
+
+  reset();
 }
 
 void desliga(int escolha) {
@@ -583,10 +592,6 @@ void desliga(int escolha) {
       break;
     default:
       Serial.println("ok");
-  }
-
-  if (game == 1) {
-    false_all();
   }
 
   reset();
@@ -660,20 +665,35 @@ void amarelinha() {
         tecla_controle1 = true;
       } else {
         tecla1 = true;
-        Serial.println("Peça 1" + 1);
+        Serial.println("p 1" + 1);
         liga(1, random(255), random(255), random(255));
         if (volta == true && ida == false) {
           if (checa_ordem()) {
+
             ida = true;
             volta = false;
-            liga_tudo();
+            liga_tudo(300, random(255), random(255), random(255));
+
             reset();
             Serial.println("Volta Completa");
             reset();
-            liga(7, random(255), random(255), random(255));
+
+            liga(sky, random(255), random(255), random(255));
             reset();
             false_all();
+
+
+
             BTSerial.write(root1.printTo(BTSerial));
+
+            if (valor_botao_ == sky) {
+              //desliga_tudo();
+              next_user = true;
+              false_tecla_escolha();
+              Serial.println("Esperando próximo jogador e jogada...");
+            } else {
+              Serial.println("Esperando próxima jogada...");
+            }
             reset();
           }
         }
@@ -694,12 +714,12 @@ void amarelinha() {
         tecla_controle3 = true;
       } else {
         tecla3 = true;
-        Serial.println("Peça 3" + 3);
-        if (tecla_vez == 3) {
-          liga(3, 0, 0, 255);
-        } else {
-          liga(3, random(255), random(255), random(255));
-        }
+        Serial.println("p " + 3);
+        //if (tecla_vez == 3) {
+        //  liga(3, 0, 0, 255);
+        //} else {
+        liga(3, random(255), random(255), random(255));
+        //}
       }
       reset();
       digitalWrite(13, HIGH);
@@ -716,7 +736,7 @@ void amarelinha() {
         tecla_controle2 = true;
       } else {
         tecla2 = true;
-        Serial.println("Peça 2" + 2);
+        Serial.println("p 2" + 2);
         //if (tecla_vez == 2) {
         // liga(2, 0, 0, 255);
         //} else {
@@ -739,14 +759,14 @@ void amarelinha() {
         liga(4, 255, 0, 0);
       } else {
         tecla4 = true;
-        Serial.println("Peça 4" + 4);
-        if (tecla_vez == 4) {
-          liga(4, 0, 0, 255);
-        } else {
-          liga(4, random(255), random(255), random(255));
-        }
+        Serial.println("p 4" + 4);
+        //if (tecla_vez == 4) {
+        //liga(4, 0, 0, 255);
+        //} else {
+        liga(4, random(255), random(255), random(255));
+        reset();
+        //}
       }
-      reset();
       digitalWrite(13, HIGH);
       reset();
     } else {
@@ -762,12 +782,12 @@ void amarelinha() {
         tecla_controle6 = true;
       } else {
         tecla6 = true;
-        Serial.println("Peça 6" + 6);
-        if (tecla_vez == 6) {
-          liga(6, 0, 0, 255);
-        } else {
-          liga(6, random(255), random(255), random(255));
-        }
+        Serial.println("p 6" + 6);
+        ///if (tecla_vez == 6) {
+        //  liga(6, 0, 0, 255);
+        // } else {
+        liga(6, random(255), random(255), random(255));
+        // }
       }
       reset();
       digitalWrite(13, HIGH);
@@ -784,12 +804,12 @@ void amarelinha() {
         tecla_controle5 = true;
       } else {
         tecla5 = true;
-        Serial.println("Peça 5" + 5);
-        if (tecla_vez == 5) {
-          liga(5, 0, 0, 255);
-        } else {
-          liga(5, random(255), random(255), random(255));
-        }
+        Serial.println("p" + 5);
+        //if (tecla_vez == 5) {
+        //  liga(5, 0, 0, 255);
+        // } else {
+        liga(5, random(255), random(255), random(255));
+        // }
       }
       reset();
       digitalWrite(13, HIGH);
@@ -807,11 +827,11 @@ void amarelinha() {
         reset();
       } else {
         tecla7 = true;
-        Serial.println("Peça 7" + 7);
+        Serial.println("p" + 7);
         reset();
         if (checa_ordem() && ida) {
           reset();
-          liga_tudo();
+          liga_tudo(300, random(255), random(255), random(255));
           false_all();
           Serial.println("Ida Completa");
           ida = false;
@@ -824,75 +844,135 @@ void amarelinha() {
     }
 
   } else {
+    if (total1 >= 5000) {
+      // Serial.print(1);
+      reset();
+      tecla1 = true;
+      desliga(1);
+      digitalWrite(13, HIGH);
+    }
+
+    if (total3 >= 5000) {
+      if (!tecla3) {
+        reset();
+        tecla3 = true;
+        desliga(3);
+        digitalWrite(13, HIGH);
+      }
+    }
+
+    if (total2 > 5000) {
+      if (!tecla2) {
+        reset();
+        tecla2 = true;
+        desliga(2);
+        digitalWrite(13, HIGH);
+      }
+    }
+
+    if (total4 > 5000) {
+      if (!tecla4) {
+        reset();
+        tecla4 = true;
+        desliga(4);
+        digitalWrite(13, HIGH);
+      }
+    }
+
+    if (total6 > 5000) {
+      if (!tecla6) {
+        reset();
+        tecla6 = true;
+        desliga(6);
+        digitalWrite(13, HIGH);
+      }
+    }
+
+    if (total5 >= 5000) {
+      if (!tecla5) {
+        reset();
+        tecla5 = true;
+        desliga(5);
+        digitalWrite(13, HIGH);
+      }
+    }
+
+    if (total7 >= 5000) {
+      if (!tecla7) {
+        reset();
+        tecla7 = true;
+        desliga(7);
+        digitalWrite(13, HIGH);
+      }
+    }
 
   }
 }
 
-
-void liga_tudo() {
-  liga(1, 200, 200, 200);
-  delay(200);
-  liga(2, 200, 200, 200);
-  delay(200);
-  liga(3, 200, 200, 200);
-  delay(200);
-  liga(4, 200, 200, 200);
-  delay(200);
-  liga(5, 200, 200, 200);
-  delay(200);
-  liga(6, 200, 200, 200);
-  delay(200);
-  liga(7, 200, 200, 200);
-  delay(200);
+void liga_tudo(int delay_, int red, int green, int blue) {
+  liga(1, red, green , blue);
+  delay(delay_);
+  liga(2, red, green , blue);
+  delay(delay_);
+  liga(3, red, green , blue);
+  delay(delay_);
+  liga(4, red, green , blue);
+  delay(delay_);
+  liga(5, red, green , blue);
+  delay(delay_);;
+  liga(6, red, green , blue);
+  delay(delay_);
+  liga(7, red, green , blue);
+  delay(delay_);
   reset();
 
   if (!tecla_escolha1) {
     liga(1, 0, 0, 255);
-    delay(200);
+    delay(delay_);
   } else {
     desliga(1);
   }
   if (!tecla_escolha2) {
     liga(2, 0, 0, 255);
-    delay(200);
+    delay(delay_);
   } else {
     desliga(2);
   }
   if (!tecla_escolha3) {
     liga(3, 0, 0, 255);
-    delay(200);
+    delay(delay_);
   } else {
     desliga(3);
   }
   if (!tecla_escolha4) {
     liga(4, 0, 0, 255);
-    delay(200);
+    delay(delay_);
   } else {
     desliga(4);
   }
 
   if (!tecla_escolha5) {
     liga(5, 0, 0, 255);
-    delay(200);
+    delay(delay_);
   } else {
     desliga(5);
   }
   if (!tecla_escolha6) {
     liga(6, 0, 0, 255);
-    delay(200);
+    delay(delay_);
   } else {
     desliga(6);
   }
 
   if (!tecla_escolha7) {
     liga(7, 0, 0, 255);
-    delay(200);
+    delay(delay_);
   } else {
     desliga(7);
   }
   if (!tecla_escolha8) {
     liga(8, 0, 0, 255);
-    delay(200);
+    delay(delay_);
   } else {
     desliga(8);
   }
@@ -901,15 +981,17 @@ void liga_tudo() {
 
 
 void campo_minado() {
-  if (total1 >= 10000 && check_fields(1)) {
-    // Serial.print(1);
-    reset();
-    tecla1 = true;
-    desliga(1);
-    digitalWrite(13, HIGH);
+  if (total1 >= 10000)) {
+    controle_chances++;
+    if (check_fields(1)) {
+      reset();
+      tecla1 = true;
+      desliga(1);
+      digitalWrite(13, HIGH);
+    }
   }
-
   if (total3 >= 10000 && check_fields(3)) {
+    controle_chances++;
     if (!tecla3) {
       reset();
       tecla3 = true;
@@ -919,6 +1001,7 @@ void campo_minado() {
   }
 
   if (total2 > 10000 && check_fields(2)) {
+    controle_chances++;
     if (!tecla2) {
       reset();
       tecla2 = true;
@@ -946,6 +1029,7 @@ void campo_minado() {
   }
 
   if (total5 >= 20000 && check_fields(5)) {
+    controle_chances++;
     if (!tecla5) {
       reset();
       tecla5 = true;
@@ -955,6 +1039,7 @@ void campo_minado() {
   }
 
   if (total7 >= 22000 && check_fields(7)) {
+    controle_chances++;
     if (!tecla7) {
       reset();
       tecla7 = true;
@@ -962,6 +1047,17 @@ void campo_minado() {
       digitalWrite(13, HIGH);
     }
   }
+
+  if (controle_chances >= 3) {
+  Serial.println("Limite Alcançado");
+    //explode_tudo();
+    controle_chances = 0;
+  }
+
+
+}
+
+void explode_tudo() {
 
 }
 
@@ -990,6 +1086,7 @@ bool checa_ordem() {
         i++;
       } else {
         Serial.println("1 falha");
+        return false;
       }
     }
     if (!tecla_escolha2) {
@@ -1082,58 +1179,82 @@ bool checa_ordem() {
   if (volta == true) {
     int i = 8;
     String positions[8];
-    if (tecla7 && tecla_escolha7) {
-      positions[i] = "ok";
-      i--;
-    }
-
-    if (tecla6 && tecla_escolha6) {
-      if (positions[i + 1] == "ok") {
-        positions[i + 1] = "ok";
+    if (!tecla_escolha7) {
+      if (tecla7) {
+        positions[i] = "ok";
         i--;
       } else {
+        Serial.println("f" + 7);
         return false;
       }
     }
 
-    if (tecla5 && tecla_escolha5) {
-      if (positions[i + 1] == "ok") {
-        positions[i + 1] = "ok";
-        i--;
+    if (!tecla_escolha6) {
+      if (tecla6) {
+        if (positions[i + 1] == "ok") {
+          positions[i + 1] = "ok";
+          i--;
+        }
       } else {
+        Serial.println("f" + 6);
         return false;
       }
     }
-    if (tecla4 && tecla_escolha4) {
-      if (positions[i + 1] == "ok") {
-        positions[i] = "ok";
-        i--;
+
+    if (!tecla_escolha5) {
+      if (tecla5) {
+        if (positions[i + 1] == "ok") {
+          positions[i + 1] = "ok";
+          i--;
+        }
       } else {
+        Serial.println("f" + 5);
         return false;
       }
     }
-    if (tecla3 && tecla_escolha3) {
-      if (positions[i + 1] == "ok") {
-        positions[i] = "ok";
-        i--;
+
+    if (!tecla_escolha4) {
+      if (tecla4) {
+        if (positions[i + 1] == "ok") {
+          positions[i] = "ok";
+          i--;
+        }
       } else {
+        Serial.println("f" + 4);
         return false;
       }
     }
-    if (tecla2 && tecla_escolha2) {
-      if (positions[i + 1] == "ok") {
-        positions[i] = "ok";
-        i--;
+    if (!tecla_escolha3) {
+      if (tecla3) {
+        if (positions[i + 1] == "ok") {
+          positions[i] = "ok";
+          i--;
+        }
       } else {
+        Serial.println("f" + 3);
         return false;
       }
     }
-    if (tecla1 && tecla_escolha1) {
-      if (positions[i + 1] == "ok") {
-        positions[i] = "ok";
-        i--;
-        return true;
+    if (!tecla_escolha2) {
+      if (tecla2) {
+        if (positions[i + 1] == "ok") {
+          positions[i] = "ok";
+          i--;
+        }
       } else {
+        Serial.println("f" + 2);
+        return false;
+      }
+    }
+    if (!tecla_escolha1) {
+      if (tecla1) {
+        if (positions[i + 1] == "ok") {
+          positions[i] = "ok";
+          i--;
+          return true;
+        }
+      } else {
+        Serial.println("f" + 1);
         return false;
       }
     }

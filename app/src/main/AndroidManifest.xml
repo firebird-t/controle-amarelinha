@@ -22,8 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity
-            android:name=".MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,9 +30,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".BluetoothSearchActivity"
-            android:label="Pesquisa de Dispositivos" />
+            android:label="Pesquisa de Dispositivos"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Main2Activity"
             android:label="Quantidade de Usários e Modo de Jogo" />
@@ -59,7 +58,8 @@
 
         <activity android:name=".Minesweeper" />
         <activity android:name=".HypnoActivity" />
-        <activity android:name=".GameChoose"></activity>
+        <activity android:name=".GameChoose" />
+        <activity android:name=".Mineswp_Result_Activity"></activity>
     </application>
 
 </manifest>

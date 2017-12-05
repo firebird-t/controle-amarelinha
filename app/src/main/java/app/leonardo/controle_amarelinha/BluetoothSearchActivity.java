@@ -138,6 +138,7 @@ public class BluetoothSearchActivity extends MainActivity{
                     uuid_device = mBTDevices.get(position).getUuids()[0].getUuid();
 
                     mBTDevice = mBTDevices.get(position);
+
                     if(mBTDevices.get(position).getBondState() == 12){
                         Log.d(TAG, "o dispositivo foi pareado com sucesso");
 

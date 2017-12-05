@@ -7,8 +7,8 @@
     </string-array>
 
     <string-array name="df_mode">
-        <item value="facil" id="1">Fácil</item>
-        <item value="medio" id="2">Médio</item>
-        <item value="dificil" id="3">Difícil</item>
+        <item id="1" value="facil">Fácil</item>
+        <item id="2" value="medio">Médio</item>
+        <item id="3" value="dificil">Difícil</item>
     </string-array>
 </resources>

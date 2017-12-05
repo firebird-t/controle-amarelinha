@@ -40,6 +40,8 @@ public class InteractionActivity extends AppCompatActivity{
     byte[] data_send;
     Bundle bundle;
     private int quant_users;
+    int num1;
+    int num2;
 
     @SuppressLint("LongLogTag")
     @Override
@@ -63,8 +65,17 @@ public class InteractionActivity extends AppCompatActivity{
         Log.d("Quantidade_de_Usuários", String.valueOf(quant_users));
         Log.d("Modo_Jogo",bundle.getString("game_mode"));
         Random random = null;
-        int num1 = random.nextInt((7 - 2) + 1) + 2;
-        int num2 = random.nextInt((7 - 2) + 1) + 2;
+        num1 = random.nextInt((7 - 2) + 1) + 2;
+
+        boolean check = false;
+
+        while(!check){
+            num2 = random.nextInt((7 - 2) + 1) + 2;
+            if(num2 != num1){
+                check = true;
+            }
+        }
+
 
         int temp_game;
         if(modo_jogo.equalsIgnoreCase("Normal")){
@@ -104,6 +115,8 @@ public class InteractionActivity extends AppCompatActivity{
                 Intent intent = new Intent(InteractionActivity.this,ShakeActivity.class);
                 bundle.putString("jogo_inter", "agita");
                 bundle.putString("quant_users", String.valueOf(quant_users));
+                bundle.putString("num1",String.valueOf(num1));
+                bundle.putString("num2", String.valueOf(num2));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
