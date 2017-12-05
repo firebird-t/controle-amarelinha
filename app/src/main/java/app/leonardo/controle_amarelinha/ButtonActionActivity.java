@@ -39,6 +39,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
     private int valor_jogadas[];
     private int int_valor_jogada;
     private Boolean state_player[];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +76,11 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
         int max = 7;
         int min = 2;
         if(modo_jogo.equals("Normal")){
-            if(caminho == "ida"){
                 valor = anterior;
-                valor++;
+
+                if(valor <= max) {
+                    valor++;
+                }
 
                 if(anterior == 2 && valor == 3){
                     valor++;
@@ -87,24 +90,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
                     valor++;
                 }
                 anterior = valor;
-            }else{
-                valor = anterior;
-                valor--;
-                if(anterior == 3 && valor == 2){
-                    valor--;
-                }
-
-                if(anterior == 6 && valor == 5){
-                    valor--;
-                }
-                anterior = valor;
-            }
-
-            if(anterior >= max){
-                caminho = "volta";
-            }
-
-
+                int_valor_jogada = valor;
 
         }else{
             Boolean check = false;
@@ -189,21 +175,26 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
                if(!btn_pedra_state.isEmpty() && btn_pedra_state.equalsIgnoreCase("ok")) {
                    btn_pedra.setEnabled(true);
                    //textView.setText("");
-
-                    Log.d("Caminho",caminho);
-                   if(caminho == "volta" && int_valor_jogada <= 1){
-                        caminho = "ida";
-                        textView.setText("Jogador: " + control_users);
-                   }
-
-
-                   if(next_user.equalsIgnoreCase("ok")){
+                   if(anterior == 7){
+                       anterior = 0;
                        control_users++;
+                       textView.setText("Jogador: " + control_users);
                    }
 
-                   if(control_users > quant_users){
+                   if (control_users > quant_users) {
                        control_users = 1;
                        textView.setText("Jogador: " + control_users);
+                   }
+
+                   if(modo_jogo == "2") {
+                       Log.d("Caminho", caminho);
+                       if (caminho == "volta" && int_valor_jogada <= 1) {
+                           caminho = "ida";
+                           textView.setText("Jogador: " + control_users);
+                       }
+
+
+
                    }
                }
             }

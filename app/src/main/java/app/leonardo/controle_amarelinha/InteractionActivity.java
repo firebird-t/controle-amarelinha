@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.w3c.dom.Text;
 
 import java.nio.charset.Charset;
+import java.util.Random;
 import java.util.UUID;
 
 public class InteractionActivity extends AppCompatActivity{
@@ -55,15 +56,29 @@ public class InteractionActivity extends AppCompatActivity{
         TextView textView = (TextView)findViewById(R.id.textView14);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
         textView.setTypeface(typeface);
-
+        String modo_jogo = bundle.getString("game_mode");
 
         Log.d("k6","DEVICE UUID: " + bundle.getString("device"));
         Log.d("k6", "Device Address: " + bundle.getString("address"));
         Log.d("Quantidade_de_Usuários", String.valueOf(quant_users));
+        Log.d("Modo_Jogo",bundle.getString("game_mode"));
+        Random random = null;
+        int num1 = random.nextInt((7 - 2) + 1) + 2;
+        int num2 = random.nextInt((7 - 2) + 1) + 2;
+
+        int temp_game;
+        if(modo_jogo.equalsIgnoreCase("Normal")){
+            temp_game = 1;
+        }else{
+            temp_game = 2;
+        }
 
         try {
             jsonControl.add_data("jogo","1");
             jsonControl.add_data("quant_users", String.valueOf(quant_users));
+            jsonControl.add_data("modo", String.valueOf(temp_game));
+            jsonControl.add_data("num", String.valueOf(num1));
+            jsonControl.add_data("num2",String.valueOf(num2));
             String tmp = jsonControl.json_prepare();
             data_send = tmp.getBytes(Charset.defaultCharset());
 
