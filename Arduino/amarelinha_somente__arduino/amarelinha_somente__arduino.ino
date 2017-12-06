@@ -981,7 +981,7 @@ void campo_minado() {
       controle_erros++;
       reset();
       tecla1 = true;
-      desliga(1);
+      //desliga(1);
       digitalWrite(13, HIGH);
     } else {
       controle_chances++;
@@ -993,7 +993,7 @@ void campo_minado() {
         controle_erros++;
         reset();
         tecla3 = true;
-        desliga(3);
+        //desliga(3);
         digitalWrite(13, HIGH);
       } else {
         controle_chances++;
@@ -1007,7 +1007,7 @@ void campo_minado() {
         reset();
         controle_erros++;
         tecla2 = true;
-        desliga(2);
+        //desliga(2);
         digitalWrite(13, HIGH);
       }
     } else {
@@ -1021,7 +1021,7 @@ void campo_minado() {
         reset();
         controle_erros++;
         tecla4 = true;
-        desliga(4);
+        //desliga(4);
         digitalWrite(13, HIGH);
       }
     } else {
@@ -1036,7 +1036,7 @@ void campo_minado() {
         reset();
         tecla5 = true;
         controle_erros++;
-        desliga(5);
+        //desliga(5);
         digitalWrite(13, HIGH);
       }
     } else {
@@ -1050,7 +1050,7 @@ void campo_minado() {
         reset();
         controle_erros++;
         tecla6 = true;
-        desliga(6);
+        //desliga(6);
         digitalWrite(13, HIGH);
       }
     } else {
@@ -1064,7 +1064,7 @@ void campo_minado() {
         controle_erros++;
         reset();
         tecla7 = true;
-        desliga(7);
+        //desliga(7);
         digitalWrite(13, HIGH);
       }
     } else {
@@ -1075,7 +1075,7 @@ void campo_minado() {
   if(controle_erros == 3){
       Serial.println("Falha");
       //explode_tudo();
-      liga_tudo(300, 255, 255, 255);
+      liga_tudo(300, 255, 0,0);
       controle_erros = 0;
   }
   

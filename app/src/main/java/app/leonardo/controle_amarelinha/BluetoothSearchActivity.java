@@ -148,7 +148,7 @@ public class BluetoothSearchActivity extends MainActivity{
                         bundle.putString("device",uuid_device.toString());
                         bundle.putString("address", deviceAddress);
 
-                        Toast.makeText(BluetoothSearchActivity.this, "Dispositivo pareado com sucesso", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(BluetoothSearchActivity.this, "Dispositivo pareado com sucesso", Toast.LENGTH_LONG).show();
                         valid_device = true;
                         startService(this, uuid_device.toString(), deviceAddress);
                         mProgressDialog.dismiss();
