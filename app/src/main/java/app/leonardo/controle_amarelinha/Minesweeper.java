@@ -36,7 +36,7 @@ public class Minesweeper extends AppCompatActivity {
 
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Fixa em modo Retrato
 
-        bundle = getIntent().getExtras();
+        bundle = new Bundle();
 
         jsonControl = new JsonControl();
         button = (Button)findViewById(R.id.button4);
@@ -90,6 +90,7 @@ public class Minesweeper extends AppCompatActivity {
                 }
 
                 Intent intent2 = new Intent(Minesweeper.this,Mineswp_Result_Activity.class);
+
                 bundle.putString("quant_users",etqUsers.getText().toString());
                 bundle.putString("jogo","2");
                 bundle.putString("modo",String.valueOf(mode_temp_int));

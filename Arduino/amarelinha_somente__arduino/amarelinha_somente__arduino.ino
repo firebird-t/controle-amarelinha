@@ -459,7 +459,7 @@ void sorteio(int jogo, String modo) {
 
     //Serial.println("número escolhido 1");
     Serial.println(fields[0]);
-    liga(fields[0], random(0, 255), random(0, 255), random(0, 255));
+    //liga(fields[0], random(0, 255), random(0, 255), random(0, 255));
     if (piece > 1) {
       int contador = 1;
       bool check = false;
@@ -1076,8 +1076,7 @@ void campo_minado() {
       Serial.println("Falha");
       //explode_tudo();
       liga_tudo(300, 255, 255, 255);
-      controle_chances = 0;
-    
+      controle_erros = 0;
   }
   
   if (controle_chances >= 3) {
