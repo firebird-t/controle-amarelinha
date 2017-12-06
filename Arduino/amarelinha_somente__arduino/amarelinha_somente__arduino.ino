@@ -79,6 +79,7 @@ String velocidade;
 int tecla_vez = 0;
 int num1_tmp, num2_tmp;
 int controle_chances;
+int controle_erros;
 int sky = 7;
 bool next_user = false;
 int active_game;
@@ -281,58 +282,68 @@ void json_inpt(String input) {
   String num1 = root["num1"];
   String num2 = root["num2"];
   reset();
-  
+
   //Variáveis que recebem os valores para que teclas devem ser apagadas
   //São variáveis globais
-  num1_tmp = num1.toInt();
-  num2_tmp = num2.toInt();
+  //num1_tmp = num1.toInt();
+  //num2_tmp = num2.toInt();
 
   if (game_init) {
     String tmp = input.substring(16, 17);
-    Serial.println("tecla a acender" + tmp);
+    Serial.println("tecla a acender " + tmp);
+
     int inter_ = tmp.toInt();
     Serial.println("Enviando confirmação...");
     touch = true;
     valor_botao_ = inter_;
     liga(inter_, random(255), random(255), random(255));
     reset();
-    
-    if(next_user){
-      if(active_game == 1){
-         sorteio(1,modo);
-      }
-      else if(active_game == 2){
+
+    if (next_user) {
+
+      if (game == 1) {
         sorteio(1, modo);
+      }
+      else if (game == 2) {
+        sorteio(2, modo);
       }
 
       next_user = false;
+    }
   }
 
   reset();
+
   if (choose == false) {
     String jogo = root["jogo"];
+    String num1_str_tmp = input.substring(48, 49);
+    Serial.println("turnoff " + num1_str_tmp);
+    num1_tmp = num1_str_tmp.toInt();
+    String num2_str_tmp = input.substring(59, 60);
+    num2_tmp = num2_str_tmp.toInt();
+    Serial.println("turnoff2 " + num2_str_tmp);
     //Amarelinha
-    if (jogo == "1") {
-      Serial.println("Iniciando a amarelinha");
-      reset();
 
+    if (jogo == "1") {
+      Serial.println("amarelinha");
+      reset();
       //Variáveis que informar o jogo e seu status
-      active_game = 1;
-      game = 1;
       amarelinha_modo = modo;
       sorteio(1, modo);
+      active_game = 1;
+      game = 1;
       choose = true;
 
     }
 
     //Campo minado
     if (jogo == "2") {
-      Serial.println("2");
+      Serial.println("minefield");
       reset();
       active_game = 2;
       game = 2;
       Serial.println("Iniciando o jogo do campo minado");
-      (2, modo);
+      sorteio(2, modo);
       choose = true;
     }
 
@@ -343,28 +354,29 @@ void json_inpt(String input) {
       sorteio(3, modo);
       choose = true;
     }
-
-    reset();
-    //int quant_users = root["quant_users"];
-    if (choose == true) {
-      Serial.println("Jogo Iniciado");
-      reset();
-      game_init = true;
-      reset();
-    }
-
-    if (encerra == "fim") {
-      game = 0;
-      game_init = false;
-      choose = false;
-      false_all();
-      //desliga_tudo();
-      //false_tecla_escolha();
-    }
-
   }
 
   reset();
+  //int quant_users = root["quant_users"];
+  if (choose == true) {
+    Serial.println("Jogo Iniciado");
+    reset();
+    game_init = true;
+    reset();
+  }
+
+  if (encerra == "fim") {
+    game = 0;
+    game_init = false;
+    choose = false;
+    false_all();
+    //desliga_tudo();
+    //false_tecla_escolha();
+  }
+
+
+  reset();
+
 }
 
 
@@ -376,30 +388,11 @@ void sorteio(int jogo, String modo) {
     int contador = 0;
     bool check = false;
     int temp = 0;
+    //Serial.println("amar");
 
-    //    while (contador < piece) {
-    //      temp = random(2, 6);
-    //      for (int i = 0; i < piece; i++) {
-    //        check = false;
-    //        if (temp == fields[i]) {
-    //          desliga(fields[i]);
-    //          check = true;
-    //          break;
-    //        }
-    //      }
-    //
-    //      if (!check) {
-    //        Serial.println("Jogo 1 + número escolhido");
-    //        Serial.println(temp);
-    //        fields[contador] = temp;
-    //        true_tecla(fields[contador]);
-    //        contador++;
-    //      }
-    //    }
-
-    Serial.println("Number1 " + num1_tmp);
+    //Serial.println("1 " + num1_tmp);
     true_tecla(num1_tmp);
-    Serial.println("Number2 " + num2_tmp);
+    //Serial.println("2 " + num2_tmp);
     true_tecla(num2_tmp);
 
     //Faz a checagem de quais teclas foram desligadas e liga as restantes
@@ -450,7 +443,7 @@ void sorteio(int jogo, String modo) {
   //Campo minado
   if (jogo == 2) {
     int piece;
-
+    Serial.println("mine");
     if (modo == "1") {
       piece = 1;
       fields[0] = random(1, 7);
@@ -464,7 +457,7 @@ void sorteio(int jogo, String modo) {
       fields[0] = random(1, 7);
     }
 
-    Serial.println("número escolhido 1");
+    //Serial.println("número escolhido 1");
     Serial.println(fields[0]);
     liga(fields[0], random(0, 255), random(0, 255), random(0, 255));
     if (piece > 1) {
@@ -659,7 +652,8 @@ void amarelinha() {
       reset();
     }
 
-    if (total1 >= 5000) {
+    //logs(1);
+    if (total1 >= 4000) {
       if (tecla_escolha1 && tecla_controle1) {
         liga(1, 255, 0, 0);
         tecla_controle1 = true;
@@ -707,7 +701,7 @@ void amarelinha() {
       }
     }
 
-    if (total3 >= 6000) {
+    if (total3 >= 4000) {
       if (tecla_escolha3) {
         liga(3, 255, 0, 0);
         reset();
@@ -730,7 +724,7 @@ void amarelinha() {
       }
     }
 
-    if (total2 > 6000) {
+    if (total2 > 4000) {
       if (tecla_escolha2) {
         liga(2, 255, 0, 0);
         tecla_controle2 = true;
@@ -981,76 +975,115 @@ void liga_tudo(int delay_, int red, int green, int blue) {
 
 
 void campo_minado() {
-  if (total1 >= 10000)) {
-    controle_chances++;
+  if (total1 >= 5000) {
+
     if (check_fields(1)) {
+      controle_erros++;
       reset();
       tecla1 = true;
       desliga(1);
       digitalWrite(13, HIGH);
+    } else {
+      controle_chances++;
     }
   }
-  if (total3 >= 10000 && check_fields(3)) {
-    controle_chances++;
-    if (!tecla3) {
-      reset();
-      tecla3 = true;
-      desliga(3);
-      digitalWrite(13, HIGH);
-    }
-  }
-
-  if (total2 > 10000 && check_fields(2)) {
-    controle_chances++;
-    if (!tecla2) {
-      reset();
-      tecla2 = true;
-      desliga(2);
-      digitalWrite(13, HIGH);
+  if (total3 >= 5000) {
+    if (check_fields(3)) {
+      if (!tecla3) {
+        controle_erros++;
+        reset();
+        tecla3 = true;
+        desliga(3);
+        digitalWrite(13, HIGH);
+      } else {
+        controle_chances++;
+      }
     }
   }
 
-  if (total4 > 10000 && check_fields(4)) {
-    if (!tecla4) {
-      reset();
-      tecla4 = true;
-      desliga(4);
-      digitalWrite(13, HIGH);
+  if (total2 > 5000) {
+    if (check_fields(2)) {
+      if (!tecla2) {
+        reset();
+        controle_erros++;
+        tecla2 = true;
+        desliga(2);
+        digitalWrite(13, HIGH);
+      }
+    } else {
+      controle_chances++;
     }
   }
 
-  if (total6 > 20000 && check_fields(6)) {
-    if (!tecla6) {
-      reset();
-      tecla6 = true;
-      desliga(6);
-      digitalWrite(13, HIGH);
+  if (total4 > 5000) {
+    if (check_fields(4)) {
+      if (!tecla4) {
+        reset();
+        controle_erros++;
+        tecla4 = true;
+        desliga(4);
+        digitalWrite(13, HIGH);
+      }
+    } else {
+      controle_chances++;
     }
   }
 
-  if (total5 >= 20000 && check_fields(5)) {
-    controle_chances++;
-    if (!tecla5) {
-      reset();
-      tecla5 = true;
-      desliga(5);
-      digitalWrite(13, HIGH);
+
+  if (total5 > 5000) {
+    if (check_fields(5)) {
+      if (!tecla5) {
+        reset();
+        tecla5 = true;
+        controle_erros++;
+        desliga(5);
+        digitalWrite(13, HIGH);
+      }
+    } else {
+      controle_chances++;
     }
   }
 
-  if (total7 >= 22000 && check_fields(7)) {
-    controle_chances++;
-    if (!tecla7) {
-      reset();
-      tecla7 = true;
-      desliga(7);
-      digitalWrite(13, HIGH);
+  if (total6 > 5000) {
+    if (check_fields(6)) {
+      if (!tecla6) {
+        reset();
+        controle_erros++;
+        tecla6 = true;
+        desliga(6);
+        digitalWrite(13, HIGH);
+      }
+    } else {
+      controle_chances++;
     }
   }
 
+  if (total7 > 5000) {
+    if (check_fields(7)) {
+      if (!tecla7) {
+        controle_erros++;
+        reset();
+        tecla7 = true;
+        desliga(7);
+        digitalWrite(13, HIGH);
+      }
+    } else {
+      controle_chances++;
+    }
+  }
+
+  if(controle_erros == 3){
+      Serial.println("Falha");
+      //explode_tudo();
+      liga_tudo(300, 255, 255, 255);
+      controle_chances = 0;
+    
+  }
+  
   if (controle_chances >= 3) {
-  Serial.println("Limite Alcançado");
+    Serial.println("Sucesso");
     //explode_tudo();
+    liga_tudo(300, random(255), random(255), random(255));
     controle_chances = 0;
   }
 
@@ -1192,7 +1225,7 @@ bool checa_ordem() {
     if (!tecla_escolha6) {
       if (tecla6) {
         if (positions[i + 1] == "ok") {
-          positions[i + 1] = "ok";
+          positions[i] = "ok";
           i--;
         }
       } else {
@@ -1204,7 +1237,7 @@ bool checa_ordem() {
     if (!tecla_escolha5) {
       if (tecla5) {
         if (positions[i + 1] == "ok") {
-          positions[i + 1] = "ok";
+          positions[i] = "ok";
           i--;
         }
       } else {

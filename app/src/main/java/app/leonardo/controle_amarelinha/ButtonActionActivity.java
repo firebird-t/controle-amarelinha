@@ -80,7 +80,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         int valor = 0;
-        int max = 7;
+        int max = 6;
         int min = 2;
         if(modo_jogo.equals("Normal")){
                 valor = anterior;
@@ -97,7 +97,11 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
                     valor++;
                 }
 
-                if(valor == num1 || valor == num2){
+                if(valor == num1){
+                    valor++;
+                }
+
+                if(valor ==num2){
                     valor++;
                 }
 
@@ -106,8 +110,8 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
 
         }else{
             Boolean check = false;
-            max = 1;
-            min = 7;
+            max = 6;
+            min = 2;
             while(!check) {
                 Random random = new Random();
                 valor = random.nextInt((max - min) + 1) + min;
@@ -155,6 +159,22 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        JsonControl jsonControl = new JsonControl();
+
+        try {
+            jsonControl.add_data("fim", "fim");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String tmp = jsonControl.json_prepare();
+        byte[] data_send = tmp.getBytes(Charset.defaultCharset());
+
+        Intent intent = new Intent("data_send");
+        intent.putExtra("data_to_send",data_send);
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
     }
 

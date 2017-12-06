@@ -20,6 +20,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -32,6 +33,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -189,6 +192,23 @@ public class BluetoothSearchActivity extends MainActivity{
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: Activity destruída.");
         mBTDevices = null;
+        JsonControl jsonControl = new JsonControl();
+
+        try {
+            jsonControl.add_data("fim", "fim");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String tmp = jsonControl.json_prepare();
+        byte[] data_send = tmp.getBytes(Charset.defaultCharset());
+
+        Intent intent = new Intent("data_send");
+        intent.putExtra("data_to_send",data_send);
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+        //LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         super.onDestroy();
 
         if (registerReceive1Boolean) {

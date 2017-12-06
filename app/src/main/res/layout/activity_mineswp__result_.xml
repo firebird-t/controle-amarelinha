@@ -4,6 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffd652"
     tools:context="app.leonardo.controle_amarelinha.Mineswp_Result_Activity">
 
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="218dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="245dp"
+        android:layout_marginTop="124dp"
+        android:fontFamily="@font/inky"
+        android:text="Jogador 1"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="116dp"
+        android:text="Sair"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="206dp"
+        android:layout_height="55dp"
+        android:fontFamily="@font/inky"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="228dp" />
 </android.support.constraint.ConstraintLayout>

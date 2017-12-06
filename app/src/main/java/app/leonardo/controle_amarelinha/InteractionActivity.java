@@ -64,7 +64,7 @@ public class InteractionActivity extends AppCompatActivity{
         Log.d("k6", "Device Address: " + bundle.getString("address"));
         Log.d("Quantidade_de_Usuários", String.valueOf(quant_users));
         Log.d("Modo_Jogo",bundle.getString("game_mode"));
-        Random random = null;
+        Random random = new Random();
         num1 = random.nextInt((7 - 2) + 1) + 2;
 
         boolean check = false;
@@ -128,6 +128,8 @@ public class InteractionActivity extends AppCompatActivity{
                 Intent intent = new Intent(InteractionActivity.this,RockReleaseActivity.class);
                 bundle.putString("jogo_inter","rock");
                 bundle.putString("quant_users", String.valueOf(quant_users));
+                bundle.putString("num1",String.valueOf(num1));
+                bundle.putString("num2", String.valueOf(num2));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -139,6 +141,8 @@ public class InteractionActivity extends AppCompatActivity{
                 Intent intent = new Intent(InteractionActivity.this,ButtonActionActivity.class);
                 bundle.putString("jogo_inter", "simples");
                 bundle.putString("quant_users", String.valueOf(quant_users));
+                bundle.putString("num1",String.valueOf(num1));
+                bundle.putString("num2", String.valueOf(num2));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
