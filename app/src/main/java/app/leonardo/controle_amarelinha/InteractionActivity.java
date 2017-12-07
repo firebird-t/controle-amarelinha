@@ -65,12 +65,12 @@ public class InteractionActivity extends AppCompatActivity{
         Log.d("Quantidade_de_Usuários", String.valueOf(quant_users));
         Log.d("Modo_Jogo",bundle.getString("game_mode"));
         Random random = new Random();
-        num1 = random.nextInt((7 - 2) + 1) + 2;
+        num1 = random.nextInt((6 - 2) + 1) + 2;
 
         boolean check = false;
 
         while(!check){
-            num2 = random.nextInt((7 - 2) + 1) + 2;
+            num2 = random.nextInt((6 - 2) + 1) + 2;
             if(num2 != num1){
                 check = true;
             }

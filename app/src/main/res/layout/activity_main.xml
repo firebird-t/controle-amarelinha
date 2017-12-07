@@ -5,36 +5,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffd652"
-    tools:context="app.leonardo.controle_amarelinha.MainActivity">
+    tools:context="app.leonardo.controle_amarelinha.MainActivity"
+    tools:layout_editor_absoluteY="25dp">
 
     <Button
         android:id="@+id/button"
-        android:layout_width="213dp"
-        android:layout_height="89dp"
-        android:layout_marginBottom="136dp"
-        android:background="@drawable/botao_iniciar"
+        android:layout_width="227dp"
+        android:layout_height="82dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/iniciar"
         android:contextClickable="true"
         android:elevation="5sp"
         android:textColor="@color/WhiteLetter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.052"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="227dp"
+        android:layout_height="76dp"
+        android:layout_marginBottom="56dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/duvidas"
+        android:contextClickable="true"
+        android:elevation="10sp"
+        android:textColor="@color/WhiteLetter"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="292dp"
-        android:layout_height="197dp"
-        android:layout_marginBottom="109dp"
-        android:layout_marginTop="62dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:layout_width="244dp"
+        android:layout_height="168dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -83,6 +83,7 @@ int controle_erros;
 int sky = 7;
 bool next_user = false;
 int active_game;
+bool jogada_liberada = false;
 
 //A resposta para tudo
 int tecla_ativa = 42;
@@ -298,7 +299,8 @@ void json_inpt(String input) {
     valor_botao_ = inter_;
     liga(inter_, random(255), random(255), random(255));
     reset();
-
+    jogada_liberada = true;
+    
     if (next_user) {
 
       if (game == 1) {
@@ -354,22 +356,22 @@ void json_inpt(String input) {
       sorteio(3, modo);
       choose = true;
     }
-  }
 
-  reset();
-  //int quant_users = root["quant_users"];
-  if (choose == true) {
-    Serial.println("Jogo Iniciado");
+    Serial.println("Jogo Iniciado" + jogo);
     reset();
     game_init = true;
     reset();
   }
 
+  reset();
+ 
   if (encerra == "fim") {
     game = 0;
     game_init = false;
     choose = false;
+    amarelinha_modo = "0";
     false_all();
+    jogada_liberada = false;
     //desliga_tudo();
     //false_tecla_escolha();
   }
@@ -653,7 +655,7 @@ void amarelinha() {
     }
 
     //logs(1);
-    if (total1 >= 4000) {
+    if (total1 >= 4000 && jogada_liberada) {
       if (tecla_escolha1 && tecla_controle1) {
         liga(1, 255, 0, 0);
         tecla_controle1 = true;
@@ -675,8 +677,8 @@ void amarelinha() {
             liga(sky, random(255), random(255), random(255));
             reset();
             false_all();
-
-
+            jogada_liberada = false;
+        
 
             BTSerial.write(root1.printTo(BTSerial));
 
@@ -701,7 +703,7 @@ void amarelinha() {
       }
     }
 
-    if (total3 >= 4000) {
+    if (total3 >= 4000 && jogada_liberada) {
       if (tecla_escolha3) {
         liga(3, 255, 0, 0);
         reset();
@@ -724,7 +726,7 @@ void amarelinha() {
       }
     }
 
-    if (total2 > 4000) {
+    if (total2 > 8000 && jogada_liberada) {
       if (tecla_escolha2) {
         liga(2, 255, 0, 0);
         tecla_controle2 = true;
@@ -747,7 +749,7 @@ void amarelinha() {
       }
     }
 
-    if (total4 > 5000) {
+    if (total4 > 5000 && jogada_liberada) {
       if (tecla_escolha4) {
         tecla_controle4 = true;
         liga(4, 255, 0, 0);
@@ -770,7 +772,7 @@ void amarelinha() {
       }
     }
 
-    if (total6 > 5000) {
+    if (total6 > 5000 && jogada_liberada) {
       if (tecla_escolha6) {
         liga(6, 255, 0, 0);
         tecla_controle6 = true;
@@ -792,7 +794,7 @@ void amarelinha() {
       }
     }
 
-    if (total5 >= 5000) {
+    if (total5 >= 5000 && jogada_liberada) {
       if (tecla_escolha5) {
         liga(5, 255, 0, 0);
         tecla_controle5 = true;
@@ -814,7 +816,7 @@ void amarelinha() {
       }
     }
 
-    if (total7 >= 4000) {
+    if (total7 >= 4000 && jogada_liberada) {
       if (tecla_escolha7) {
         liga(7, 255, 0, 0);
         tecla_controle7 = true;
@@ -1001,7 +1003,7 @@ void campo_minado() {
     }
   }
 
-  if (total2 > 5000) {
+  if (total2 > 8000) {
     if (check_fields(2)) {
       if (!tecla2) {
         reset();
@@ -1073,7 +1075,7 @@ void campo_minado() {
   }
 
   if(controle_erros == 3){
-      Serial.println("Falha");
+      Serial.println( "mfail");
       //explode_tudo();
       liga_tudo(300, 255, 0,0);
       controle_erros = 0;

@@ -107,17 +107,12 @@ public class BluetoothSearchActivity extends MainActivity{
             registerReceiver(mBroadcastReceiver1, BTIntent);
         }
 
-        btnNext.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mBluetoothAdapter.cancelDiscovery();
+
                 ProgressDialog mProgressDialog = new ProgressDialog(BluetoothSearchActivity.this);
                 mProgressDialog.setTitle("Preparando o celular");
                 mProgressDialog.setIndeterminate(true);
@@ -150,7 +145,7 @@ public class BluetoothSearchActivity extends MainActivity{
 
                         //Toast.makeText(BluetoothSearchActivity.this, "Dispositivo pareado com sucesso", Toast.LENGTH_LONG).show();
                         valid_device = true;
-                        startService(this, uuid_device.toString(), deviceAddress);
+                        startService(uuid_device.toString(), deviceAddress);
                         mProgressDialog.dismiss();
                         if(valid_device) {
                             Intent quant_jogadores = new Intent(BluetoothSearchActivity.this,GameChoose.class);
@@ -177,7 +172,7 @@ public class BluetoothSearchActivity extends MainActivity{
     }
 
 
-    public void startService(AdapterView.OnItemClickListener view, String uuid, String address){
+    public void startService(String uuid, String address){
         Intent intent = new Intent(this, BluetoothConnectionService.class);
         intent.putExtra("uuid", uuid);
         intent.putExtra("address",address);
@@ -241,6 +236,7 @@ public class BluetoothSearchActivity extends MainActivity{
                         Log.d(TAG, "mBroadcastReceiver1: STATE TURNING OFF");
                         break;
                     case BluetoothAdapter.STATE_ON:
+                        btnDiscover();
                         Log.d(TAG, "mBroadcastReceiver1: STATE ON");
                         break;
                     case BluetoothAdapter.STATE_TURNING_ON:
