@@ -45,7 +45,7 @@ public class Minesweeper extends AppCompatActivity {
         spinner = (Spinner)findViewById(R.id.spinner2);
 
         TextView textView = (TextView)findViewById(R.id.textView18);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/ff.ttf");
         textView.setTypeface(typeface);
 
         etqUsers = (EditText)findViewById(R.id.etqUsers);

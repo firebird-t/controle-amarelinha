@@ -38,7 +38,7 @@ public class Main2Activity extends AppCompatActivity {
         spinner = (Spinner)findViewById(R.id.spinner);
 
         TextView textView = (TextView)findViewById(R.id.textView);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/ff.ttf");
         textView.setTypeface(typeface);
 
        //editText.setText("0");

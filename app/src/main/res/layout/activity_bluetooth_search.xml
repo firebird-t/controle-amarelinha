@@ -9,9 +9,25 @@
     tools:layout_editor_absoluteY="25dp">
 
     <Button
+        android:id="@+id/btback7"
+        android:layout_width="154dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/voltar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton3"
+        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.955" />
+
+    <Button
         android:id="@+id/bntNext"
-        android:layout_width="152dp"
-        android:layout_height="52dp"
+        android:layout_width="154dp"
+        android:layout_height="56dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -19,24 +35,26 @@
         android:background="@drawable/avancar_"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.861"
+        app:layout_constraintHorizontal_bias="0.962"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnDiscover"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <TextView
         android:id="@+id/textView16"
-        android:layout_width="229dp"
-        android:layout_height="66dp"
+        android:layout_width="385dp"
+        android:layout_height="108dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/inky"
+        android:background="#ffd652"
+        android:fontFamily="@font/ff"
+        android:paddingTop="30dp"
         android:text="Buscando Dispositivo"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,7 +93,7 @@
     <ListView
         android:id="@+id/listview_bt"
         android:layout_width="152dp"
-        android:layout_height="122dp"
+        android:layout_height="188dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"

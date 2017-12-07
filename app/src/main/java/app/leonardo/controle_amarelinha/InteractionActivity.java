@@ -27,12 +27,15 @@ import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.UUID;
 
+import pl.droidsonroids.gif.GifTextView;
+
 public class InteractionActivity extends AppCompatActivity{
     public Button button3;
 
-    public ImageButton btnAgita;
-    public ImageButton btnRockRelease;
-    public ImageButton btnSimple;
+    public GifTextView btnAgita;
+    public GifTextView btnRockRelease;
+    public GifTextView btnSimple;
+    private Button btback9;
     BluetoothConnectionService mBluetoothConnection;
     BluetoothDevice mBTDevice;
     BluetoothAdapter mBluetoothAdapter;
@@ -55,8 +58,18 @@ public class InteractionActivity extends AppCompatActivity{
         jsonControl = new JsonControl();
         quant_users = Integer.parseInt(bundle.getString("quant_users"));
 
+        btback9 = (Button)findViewById(R.id.btback9);
+        btback9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(InteractionActivity.this,Main2Activity.class);
+                startActivity(it);
+            }
+        });
+
+
         TextView textView = (TextView)findViewById(R.id.textView14);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/ff.ttf");
         textView.setTypeface(typeface);
         String modo_jogo = bundle.getString("game_mode");
 
@@ -105,9 +118,9 @@ public class InteractionActivity extends AppCompatActivity{
             e.printStackTrace();
         }
 
-        btnAgita = (ImageButton)findViewById(R.id.imgAgita);
-        btnRockRelease = (ImageButton)findViewById(R.id.imgRockRelease);
-        btnSimple = (ImageButton)findViewById(R.id.imgSimpleButton);
+        btnAgita = (GifTextView) findViewById(R.id.imgAgita);
+        //btnRockRelease = (GifTextView) findViewById(R.id.imgRockRelease);
+        btnSimple = (GifTextView) findViewById(R.id.imgSimpleButton);
 
         btnAgita.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,18 +135,18 @@ public class InteractionActivity extends AppCompatActivity{
             }
         });
 
-        btnRockRelease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(InteractionActivity.this,RockReleaseActivity.class);
-                bundle.putString("jogo_inter","rock");
-                bundle.putString("quant_users", String.valueOf(quant_users));
-                bundle.putString("num1",String.valueOf(num1));
-                bundle.putString("num2", String.valueOf(num2));
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
+//        btnRockRelease.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(InteractionActivity.this,RockReleaseActivity.class);
+//                bundle.putString("jogo_inter","rock");
+//                bundle.putString("quant_users", String.valueOf(quant_users));
+//                bundle.putString("num1",String.valueOf(num1));
+//                bundle.putString("num2", String.valueOf(num2));
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//            }
+//        });
 
         btnSimple.setOnClickListener(new View.OnClickListener() {
             @Override

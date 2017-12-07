@@ -63,7 +63,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
         num2 = Integer.parseInt(bundle.getString("num2"));
 
         textView = (TextView)findViewById(R.id.textView7);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/ff.ttf");
         textView.setTypeface(typeface);
 
         control_users = 1;

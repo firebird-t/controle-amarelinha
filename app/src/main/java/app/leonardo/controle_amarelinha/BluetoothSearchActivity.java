@@ -43,7 +43,7 @@ import java.util.UUID;
 public class BluetoothSearchActivity extends MainActivity{
 
     private static final String TAG = "MainActivity";
-    public DeviceListAdapter mDeviceListAdapter;
+    //public DeviceListAdapter mDeviceListAdapter;
     ArrayList<String> mDeviceList = new ArrayList<String>();
     public ArrayList<BluetoothDevice> mBTDevices = new ArrayList<>();
 
@@ -64,6 +64,7 @@ public class BluetoothSearchActivity extends MainActivity{
     Button btnSend;
     EditText etSend;
     public Bundle bundle;
+    private Button btback7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,14 @@ public class BluetoothSearchActivity extends MainActivity{
         //btnSend = (Button) findViewById(R.id.btnSend);
         btnNext = (Button)findViewById(R.id.bntNext);
         //etSend = (EditText) findViewById(R.id.editText);
+        btback7 = (Button)findViewById(R.id.btback7);
+        btback7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(BluetoothSearchActivity.this,MainActivity.class);
+                startActivity(it);
+            }
+        });
 
         TextView textView = (TextView)findViewById(R.id.textView16);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
@@ -307,6 +316,10 @@ public class BluetoothSearchActivity extends MainActivity{
                 Boolean device_existent = false;
 
                 mBTDevices.add(device);
+
+                if(device.getName().equalsIgnoreCase("hc-05")){
+                    //do connect();
+                }
 
                 for (String temp : mDeviceList) {
                     if(temp.equals(device.getName() + "\n" + device.getAddress())){

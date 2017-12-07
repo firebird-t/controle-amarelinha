@@ -29,7 +29,7 @@ public class Mineswp_Result_Activity extends AppCompatActivity {
         textView17 = (TextView) findViewById(R.id.textView17);
         textView19 = (TextView)findViewById(R.id.textView19);
 
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/ff.ttf");
         textView17.setTypeface(typeface);
         textView19.setTypeface(typeface);
 

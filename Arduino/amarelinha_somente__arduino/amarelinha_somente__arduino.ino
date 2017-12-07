@@ -300,7 +300,7 @@ void json_inpt(String input) {
     liga(inter_, random(255), random(255), random(255));
     reset();
     jogada_liberada = true;
-    
+
     if (next_user) {
 
       if (game == 1) {
@@ -344,9 +344,10 @@ void json_inpt(String input) {
       reset();
       active_game = 2;
       game = 2;
-      Serial.println("Iniciando o jogo do campo minado");
       sorteio(2, modo);
       choose = true;
+      liga_tudo(100,255, 18, 9,0);
+      reset();
     }
 
     if (jogo == "3") {
@@ -364,7 +365,7 @@ void json_inpt(String input) {
   }
 
   reset();
- 
+
   if (encerra == "fim") {
     game = 0;
     game_init = false;
@@ -372,8 +373,9 @@ void json_inpt(String input) {
     amarelinha_modo = "0";
     false_all();
     jogada_liberada = false;
-    //desliga_tudo();
-    //false_tecla_escolha();
+    false_tecla_escolha();
+    desliga_tudo();
+    reset();
   }
 
 
@@ -390,11 +392,8 @@ void sorteio(int jogo, String modo) {
     int contador = 0;
     bool check = false;
     int temp = 0;
-    //Serial.println("amar");
-
-    //Serial.println("1 " + num1_tmp);
+   
     true_tecla(num1_tmp);
-    //Serial.println("2 " + num2_tmp);
     true_tecla(num2_tmp);
 
     //Faz a checagem de quais teclas foram desligadas e liga as restantes
@@ -581,7 +580,6 @@ void desliga(int escolha) {
 
       //Serve para informa ao android para passar o proximo jogador
       //BTSerial.write(root1.printTo(BTSerial));
-      Serial.println("Enviada..." + escolha);
       break;
     case 8:
       break;
@@ -637,8 +635,7 @@ void true_tecla(int escolha) {
 }
 
 void amarelinha() {
-  //Serial.println("ok");
-  //Serial.println(amarelinha_modo);
+
   if (amarelinha_modo == "1") {
 
     if (!init_) {
@@ -668,7 +665,7 @@ void amarelinha() {
 
             ida = true;
             volta = false;
-            liga_tudo(300, random(255), random(255), random(255));
+            liga_tudo(300, random(255), random(255), random(255),1);
 
             reset();
             Serial.println("Volta Completa");
@@ -678,7 +675,7 @@ void amarelinha() {
             reset();
             false_all();
             jogada_liberada = false;
-        
+
 
             BTSerial.write(root1.printTo(BTSerial));
 
@@ -827,7 +824,7 @@ void amarelinha() {
         reset();
         if (checa_ordem() && ida) {
           reset();
-          liga_tudo(300, random(255), random(255), random(255));
+          liga_tudo(300, random(255), random(255), random(255),1);
           false_all();
           Serial.println("Ida Completa");
           ida = false;
@@ -905,7 +902,7 @@ void amarelinha() {
   }
 }
 
-void liga_tudo(int delay_, int red, int green, int blue) {
+void liga_tudo(int delay_, int red, int green, int blue, int desliga) {
   liga(1, red, green , blue);
   delay(delay_);
   liga(2, red, green , blue);
@@ -922,59 +919,72 @@ void liga_tudo(int delay_, int red, int green, int blue) {
   delay(delay_);
   reset();
 
-  if (!tecla_escolha1) {
-    liga(1, 0, 0, 255);
-    delay(delay_);
-  } else {
-    desliga(1);
-  }
-  if (!tecla_escolha2) {
-    liga(2, 0, 0, 255);
-    delay(delay_);
-  } else {
-    desliga(2);
-  }
-  if (!tecla_escolha3) {
-    liga(3, 0, 0, 255);
-    delay(delay_);
-  } else {
-    desliga(3);
-  }
-  if (!tecla_escolha4) {
-    liga(4, 0, 0, 255);
-    delay(delay_);
-  } else {
-    desliga(4);
+  if (desliga == 1) {
+    if (!tecla_escolha1) {
+      liga(1, 0, 0, 255);
+      delay(delay_);
+    } else {
+      desliga(1);
+    }
+    if (!tecla_escolha2) {
+      liga(2, 0, 0, 255);
+      delay(delay_);
+    } else {
+      desliga(2);
+    }
+    if (!tecla_escolha3) {
+      liga(3, 0, 0, 255);
+      delay(delay_);
+    } else {
+      desliga(3);
+    }
+    if (!tecla_escolha4) {
+      liga(4, 0, 0, 255);
+      delay(delay_);
+    } else {
+      desliga(4);
+    }
+
+    if (!tecla_escolha5) {
+      liga(5, 0, 0, 255);
+      delay(delay_);
+    } else {
+      desliga(5);
+    }
+    if (!tecla_escolha6) {
+      liga(6, 0, 0, 255);
+      delay(delay_);
+    } else {
+      desliga(6);
+    }
+
+    if (!tecla_escolha7) {
+      liga(7, 0, 0, 255);
+      delay(delay_);
+    } else {
+      desliga(7);
+    }
+    if (!tecla_escolha8) {
+      liga(8, 0, 0, 255);
+      delay(delay_);
+    } else {
+      desliga(8);
+    }
   }
 
-  if (!tecla_escolha5) {
-    liga(5, 0, 0, 255);
-    delay(delay_);
-  } else {
-    desliga(5);
-  }
-  if (!tecla_escolha6) {
-    liga(6, 0, 0, 255);
-    delay(delay_);
-  } else {
-    desliga(6);
-  }
-
-  if (!tecla_escolha7) {
-    liga(7, 0, 0, 255);
-    delay(delay_);
-  } else {
-    desliga(7);
-  }
-  if (!tecla_escolha8) {
-    liga(8, 0, 0, 255);
-    delay(delay_);
-  } else {
-    desliga(8);
-  }
   reset();
 }
 
+void desliga_tudo(){
+  liga(1, 0, 0 , 0);
+  liga(2, 0, 0 , 0);
+  liga(3, 0, 0 , 0);
+  liga(4, 0, 0 , 0);
+  liga(5, 0, 0 , 0);
+  liga(6, 0, 0 , 0);
+  liga(7, 0, 0 , 0);
+  
+}
 
 void campo_minado() {
   if (total1 >= 5000) {
@@ -1074,17 +1084,17 @@ void campo_minado() {
     }
   }
 
-  if(controle_erros == 3){
-      Serial.println( "mfail");
-      //explode_tudo();
-      liga_tudo(300, 255, 0,0);
-      controle_erros = 0;
+  if (controle_erros == 3) {
+    Serial.println( "mfail");
+    //explode_tudo();
+    liga_tudo(300, 255, 0, 0, 1);
+    controle_erros = 0;
   }
-  
+
   if (controle_chances >= 3) {
     Serial.println("Sucesso");
     //explode_tudo();
-    liga_tudo(300, random(255), random(255), random(255));
+    liga_tudo(300, random(255), random(255), random(255), 1);
     controle_chances = 0;
   }
 
