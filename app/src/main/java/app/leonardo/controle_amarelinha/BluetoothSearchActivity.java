@@ -1,10 +1,5 @@
 package app.leonardo.controle_amarelinha;
 
-
-//https://github.com/mitchtabian/Bluetooth---How-to-Pair/
-// blob/master/Bluetooth-HowToPair/app/src/main/
-// java/com/example/user/bluetooth_howtopair/MainActivity.java
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -59,10 +54,7 @@ public class BluetoothSearchActivity extends MainActivity{
     private Boolean enable = false;
     private Boolean valid_device = false;
     private UUID uuid_device;
-    //Button btnStartConnection;
     Button btnNext;
-    Button btnSend;
-    EditText etSend;
     public Bundle bundle;
     private Button btback7;
 
@@ -70,16 +62,16 @@ public class BluetoothSearchActivity extends MainActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         setContentView(R.layout.activity_bluetooth_search);
-
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Fixa em modo Retrato
+
         listView = (ListView)findViewById(R.id.listview_bt);
         Discover = (ImageButton)findViewById(R.id.btnDiscover);
-        //btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
-        //btnSend = (Button) findViewById(R.id.btnSend);
+
+        //Botão avançar
         btnNext = (Button)findViewById(R.id.bntNext);
-        //etSend = (EditText) findViewById(R.id.editText);
+
+        //Botão Voltar
         btback7 = (Button)findViewById(R.id.btback7);
         btback7.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +82,7 @@ public class BluetoothSearchActivity extends MainActivity{
         });
 
         TextView textView = (TextView)findViewById(R.id.textView16);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/inky.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/ff.ttf");
         textView.setTypeface(typeface);
 
         bundle = new Bundle();

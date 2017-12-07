@@ -335,7 +335,7 @@ void json_inpt(String input) {
       active_game = 1;
       game = 1;
       choose = true;
-
+      
     }
 
     //Campo minado
