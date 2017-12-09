@@ -11,9 +11,9 @@
         android:id="@+id/gifTextView"
         android:layout_width="0dp"
 
-        android:layout_height="366dp"
+        android:layout_height="399dp"
         android:layout_marginBottom="22dp"
-        android:background="@drawable/tela_de_selecao_gif2"
+        android:background="@drawable/toque_no_botao"
         app:layout_constraintBottom_toTopOf="@+id/bt_pedra"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +34,8 @@
 
     <ImageButton
         android:id="@+id/bt_pedra"
-        android:layout_width="192dp"
-        android:layout_height="75dp"
+        android:layout_width="177dp"
+        android:layout_height="51dp"
         android:layout_marginBottom="26dp"
         android:background="@drawable/jogar_pedra"
         app:layout_constraintBottom_toTopOf="@+id/textView7"

@@ -6,11 +6,23 @@
     android:layout_height="match_parent"
     tools:context="app.leonardo.controle_amarelinha.ShakeActivity">
 
+    <pl.droidsonroids.gif.GifTextView
+        android:id="@+id/gifTextView3"
+        android:layout_width="0dp"
+
+        android:layout_height="399dp"
+        android:layout_marginBottom="22dp"
+        android:background="@drawable/toque_no_botao"
+        app:layout_constraintBottom_toTopOf="@+id/bt_pedra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/editText3"
         android:layout_width="176dp"
         android:layout_height="58dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="428dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textAlignment="center"

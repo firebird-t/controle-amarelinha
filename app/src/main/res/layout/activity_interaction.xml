@@ -35,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgAgita"
-        app:layout_constraintVertical_bias="0.313"
+        app:layout_constraintVertical_bias="0.358"
         app:srcCompat="@android:drawable/arrow_up_float" />
 
     <pl.droidsonroids.gif.GifTextView
@@ -43,7 +43,7 @@
         android:layout_width="80dp"
         android:layout_height="71dp"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="176dp"
+        android:layout_marginTop="200dp"
         android:background="@drawable/tela_de_selecao_gif1"
         android:elevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,9 +80,10 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.761"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.357"
+        app:layout_constraintVertical_bias="0.403"
         app:srcCompat="@drawable/agitar_celular" />
 
     <ImageView
@@ -95,9 +96,10 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.653"
+        app:layout_constraintVertical_bias="0.703"
         app:srcCompat="@drawable/clique_de_botao" />
 
 </android.support.constraint.ConstraintLayout>

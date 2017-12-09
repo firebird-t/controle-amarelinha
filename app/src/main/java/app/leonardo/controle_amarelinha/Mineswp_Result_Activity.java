@@ -8,12 +8,10 @@ import android.graphics.Typeface;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 public class Mineswp_Result_Activity extends AppCompatActivity {
     private int control_users;
@@ -21,20 +19,24 @@ public class Mineswp_Result_Activity extends AppCompatActivity {
     private TextView textView19;
     private TextView textView17;
     private Bundle bundle;
+    private TextView textView3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mineswp__result_);
 
-        textView17 = (TextView) findViewById(R.id.textView17);
+        textView3 = (TextView) findViewById(R.id.textView3);
         textView19 = (TextView)findViewById(R.id.textView19);
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "font/ff.ttf");
-        textView17.setTypeface(typeface);
+        textView3.setTypeface(typeface);
         textView19.setTypeface(typeface);
 
         bundle = getIntent().getExtras();
-        quant_users = Integer.parseInt(bundle.getString("quant_users"));
+        if(!bundle.getString("quant_users").isEmpty()) {
+            quant_users = Integer.parseInt(bundle.getString("quant_users"));
+        }
+
         control_users = 1;
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter("data_receive"));
     }
@@ -70,18 +72,18 @@ public class Mineswp_Result_Activity extends AppCompatActivity {
             if (btn_pedra_state != null) {
                 if (!btn_pedra_state.isEmpty() && btn_pedra_state.equalsIgnoreCase("ok")) {
 
-                    if(result.equalsIgnoreCase("w")){
-                        textView19.setText("Você Ganhou");
-                    }else{
-                        textView19.setText("Você Perdeu");
-                    }
+//                    if(result.equalsIgnoreCase("w")){
+//                        textView3.setText("Você Ganhou");
+//                    }else{
+//                        textView3.setText("Você Perdeu");
+//                    }
 
                     control_users++;
                     if(control_users > quant_users){
                         control_users = 1;
                     }
 
-                    textView17.setText("Jogador "+control_users);
+                    textView19.setText("Jogador "+ control_users);
                 }
             }
         }

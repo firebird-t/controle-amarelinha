@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Controle da Amarelinha</string>
+    <string name="selecione_a_dificuldade">Selecione a dificuldade</string>
     <string-array name="list_mode">
         <item value="normal">Normal</item>
         <item value="passo">Diferenciado</item>

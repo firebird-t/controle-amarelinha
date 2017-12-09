@@ -4,36 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffd652"
     tools:context="app.leonardo.controle_amarelinha.Mineswp_Result_Activity"
     tools:layout_editor_absoluteY="25dp">
 
+    <pl.droidsonroids.gif.GifTextView
+        android:id="@+id/gifTextView2"
+        android:layout_width="360dp"
+
+        android:layout_height="347dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/textView19"
         android:layout_width="218dp"
-        android:layout_height="34dp"
-        android:fontFamily="@font/inky"
+        android:layout_height="65dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/ff"
         android:text="Jogador 1"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="30sp"
-        tools:layout_editor_absoluteX="83dp"
-        tools:layout_editor_absoluteY="124dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.771" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sair"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="403dp" />
+        android:layout_width="156dp"
+        android:layout_height="69dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/voltar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.966" />
 
     <TextView
-        android:id="@+id/textView19"
-        android:layout_width="206dp"
-        android:layout_height="55dp"
-        android:fontFamily="@font/inky"
-        android:textSize="14sp"
-        tools:layout_editor_absoluteX="89dp"
-        tools:layout_editor_absoluteY="256dp" />
+        android:id="@+id/textView3"
+        android:layout_width="205dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/ff"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gifTextView2"
+        app:layout_constraintVertical_bias="0.436" />
+
 </android.support.constraint.ConstraintLayout>

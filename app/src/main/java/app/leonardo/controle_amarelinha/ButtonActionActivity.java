@@ -53,7 +53,7 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
 
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Fixa em modo Retrato
         //Inicialização
-        anterior = 0;
+        anterior = 1;
         caminho = "ida";
         bundle = getIntent().getExtras();
         modo_jogo = bundle.getString("game_mode");
@@ -79,29 +79,13 @@ public class ButtonActionActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        int valor = 0;
+        int valor = 1;
         int max = 6;
         int min = 2;
         if(modo_jogo.equals("Normal")){
                 valor = anterior;
 
                 if(valor <= max) {
-                    valor++;
-                }
-
-                if(anterior == 2 && valor == 3){
-                    valor++;
-                }
-
-                if(anterior == 5 && valor == 6){
-                    valor++;
-                }
-
-                if(valor == num1){
-                    valor++;
-                }
-
-                if(valor ==num2){
                     valor++;
                 }
 

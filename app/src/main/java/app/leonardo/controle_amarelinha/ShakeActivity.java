@@ -85,7 +85,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
         control_users = 1;
 
         //Textviews
-        textView = (TextView) findViewById(R.id.editText3);
+        textView = (TextView) findViewById(R.id.textView19);
         textView.setText("Jogador: " + control_users);
 
         //Inicilização dos Sensores
@@ -139,8 +139,8 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                 Boolean check = false;
                 while (!check) {
                     Random random = new Random();
-                    int max = 7;
-                    int min = 1;
+                    int max = 6;
+                    int min = 2;
                     valor = random.nextInt((max - min) + 1) + min;
 
                     if (caminho.equals("ida")) {
